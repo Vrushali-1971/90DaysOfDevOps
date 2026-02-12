@@ -6,7 +6,9 @@ Goal - To understand where things live in Linux and practice troubleshooting lik
 
 Core Directories 
 
-### /  (root directory) - Top-most directory in Linux.
+### /  (root directory) -
+
+  Top-most directory in Linux.
 
   All other directories branch from here.
 
@@ -28,27 +30,33 @@ Core Directories
 
  Use case - I would use this when checking active services or system state after boot.
 
-### /home - /home directory is the "neighbourhood" where all the users live. It is primary location for personal files and settings  
-      
-  keep strictly separate from the core system files.
-        
-Command -  ls -l /home 
+### /home -
+
+  /home directory is the "neighbourhood" where all the users live.
+  It is primary location for personal files and settings, kept strictly separate from the core system files. 
+ 
+  Command -  ls -l /home 
 
 Observation - Shows user directories (e.g.,ubuntu).
 
  Use case- I would use this when logging in as the ubuntu user to store personal files, scripts, and projects.
 
-### /root - The /root directory is the home directory for the Root user(administrator) in linux.
+### /root -
 
-   It stores root user's personal files, configs, and scripts.
+The /root directory is the home directory for the Root user(administrator) in linux.
 
+It stores root user's personal files, configs, and scripts.
+
+   
 Command -  ls -l /root 
 
 Observation - Permission denied for non-root users.
 
  Use case- I would access this when I have root privileges ( Using sudo or logging in as root)
 
-### /etc - /etc is a system configuration directory in linux.
+### /etc -
+
+  /etc is a system configuration directory in linux.
 
    It contains configuration files for the OS and installed services(users, networking, services, permissions)
 
@@ -60,9 +68,11 @@ Observation - Permission denied for non-root users.
 
   Use case -I would use this when installing, updating or managing software using apt.
 
-### /var/log - It stores system and application log files in linux.
+### /var/log -
 
-   It keeps records of system events, errors and service activity. logs helps in troubleshooting and monitoring system behavior.
+It stores system and application log files in linux. It keeps records of system events, errors and service activity. 
+
+logs helps in troubleshooting and monitoring system behavior.
            
 Command -  ls -l /var/log 
 
@@ -76,7 +86,9 @@ Observation - Shows a detailed list of files and directories inside /var/log
 
   Use case  - I would use this when checking website access (access.log) or fixing server errors (error.log).
 
-### /tmp - /tmp is a temporary storage directory in linux. 
+### /tmp -
+
+  /tmp is a temporary storage directory in linux. 
 
   It is used by the system and applications for short-term files.
 
@@ -90,7 +102,9 @@ Observation - Shows a detailed list of files and directories inside /var/log
 
 ### Additional Directories 
 
-### /bin - /bin contains essential command binaries needed for basic system operation.
+### /bin -
+
+  /bin contains essential command binaries needed for basic system operation.
 
    Commands like ls, cp, mv, and cat are stored here.
 
@@ -106,7 +120,9 @@ Observation - Shows a detailed list of files and directories inside /var/log
 
 Use case - I would use this when running basic commands like ls, cp, or bash.
   
-### /usr/bin -  It contains user-level command binaries and utilities. 
+### /usr/bin -
+
+  It contains user-level command binaries and utilities. 
 
   It stores non-essential but commonly used programs like python, git, nano, etc.
 
@@ -124,7 +140,9 @@ Example -  1. chown – changes file owner and group
 
  Use case - I would use this when I need advanced pattern matching in logs or command output. 
 
- /opt - /opt is used for optional or third-party software installations.
+### /opt - 
+
+  /opt is used for optional or third-party software installations.
  
    Large applications are usually stored in separate folders under /opt.
    
