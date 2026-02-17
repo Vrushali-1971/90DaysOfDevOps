@@ -5,7 +5,7 @@
 ## Overview
 Today I deployed a cloud web server using an EC2 instance.
 I connected via SSH, Installed Nginx and Docker, configured security groups, and verified the web page
-from a browser using the public IP
+from a browser using the public IP.
 
 ## Commands Used 
 
@@ -37,24 +37,36 @@ sudo tail -f /var/log/nginx/access.log
 sudo tail -n 100 /var/log/nginx/access.log > nginx-logs.txt
 
 ## Download Log File to Your Local Machine
-scp -i your-key.pem ubuntu<your-instance-ip>:home/ubuntu/nginx-logs.txt
+scp -i "your-key.pem" ubuntu<your-instance-ip>:home/ubuntu/nginx-logs.txt .
 
 ## SSH Connection
-Description: Successful terminal session into the AWS EC2 instance
+Description: Successful terminal session into the AWS EC2 instance.
 
 ## Nginx Welcome Page
 Description: Webpage accessed via Public Ip address on port 80.
 
+## Docker Service
+Description: Verified that Docker is installed and running on the EC2 instance using systemctl.
+
 ## Challenges Faced 
 ## Security Group Lockout:
-  Initially, I coundn't access tha Nginx page
+  Initially, I coundn't access the Nginx page.
   Solution - I realized Port 80 was not open in the AWS Security Group. I added an Inbound Rule for HTTP(Port 80)
   from "Anywhere (0.0.0.0/0)
 
 ## SSH Connection Timeout : 
    Faced SSH connection timeout after mistakenly modifying the SSH inbound rule while adding HTTP (port 80)
    access for nginx, which removed SSH (port 22) access.
-   solution - Removed the issue by correctly adding a separate inbound rule for SSH S(port 22) in the security group.
+   Solution - Removed the issue by correctly adding a separate inbound rule for SSH (port 22) in the security group.
+
+ ## SCP File Transfer Issue:
+   while downloading the nginx log file form the EC2 instance using SCP, the command failed due to an incomplete command 
+   format. The destination path ('.') was missing, and an incorrect hostname was initially used, which resulted in the file 
+   not being copied to the local system.
+   Solution - The issue was resolved by reusing the full working SSH connection command, replacing 'ssh -i' with 'scp -i', 
+   and correctly specifying both the source file path ('/home/ubuntu/nginx-logs.txt') and the destination ('.'). After 
+   correcting the command, the log file was successfully downloaded.
+
 
 ## What I Learned
 How to deploy and access a web server (nginx) on an AWS EC2 instance.
