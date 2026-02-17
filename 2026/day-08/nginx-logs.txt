@@ -1,0 +1,4 @@
+42.104.222.87 - - [16/Feb/2026:12:35:57 +0000] "GET / HTTP/1.1" 200 409 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+42.104.222.87 - - [16/Feb/2026:12:35:57 +0000] "GET /favicon.ico HTTP/1.1" 404 196 "http://3.249.41.41/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+::1 - - [16/Feb/2026:12:56:23 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/8.5.0"
+204.76.203.206 - - [16/Feb/2026:13:28:56 +0000] "GET / HTTP/1.1" 200 615 "-" "Wget"
