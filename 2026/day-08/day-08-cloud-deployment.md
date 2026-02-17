@@ -11,33 +11,51 @@ from a browser using the public IP.
 
 ## 1. Connecting and Updating
 ## SSH into the instance
+```bash
 ssh -i "my-key.pem" ubuntu@<my-instance-ip>
+```
 
 ## Update system packages
+```bash
 sudo apt update
+```
 
 ## 2. Installing Nginx and Docker
 ## Install Nginx
+```bash
 sudo apt install nginx -y
+```
 
 ## Check status 
+```bash
 systemctl status nginx
+```
 
 ## Install Docker
+```bash
 sudo apt install docker.io -y
+```
 
 ## check status 
+```bash
 systemctl status docker
+```
 
 ## 3. Managing Logs
 ## View Live Nginx Logs
+```bash
 sudo tail -f /var/log/nginx/access.log
+```
 
 ## Save logs to File
+```bash
 sudo tail -n 100 /var/log/nginx/access.log > nginx-logs.txt
+```
 
 ## Download Log File to Your Local Machine
+```bash
 scp -i "your-key.pem" ubuntu<your-instance-ip>:home/ubuntu/nginx-logs.txt .
+```
 
 ## SSH Connection
 Description: Successful terminal session into the AWS EC2 instance.
