@@ -23,6 +23,7 @@ git commit saves the staged changes permanently into the Git repository with a m
 
 In short:
 git add = prepare changes
+
 git commit = save changes permanently
 
 ## 2. What does the staging area do? Why doesn't Git just commit directly?
@@ -34,9 +35,13 @@ The staging area gives control before saving.
 ## 3. What information does git log show you?
 
 git log shows:
+
 Commit ID (hash)
+
 Author name
+
 Date of commit
+
 Commit message
 
 It helps track the history of changes.
@@ -48,6 +53,8 @@ If we delete the .git folder, the project will no longer be a Git repository and
 
 ## 5. What is the difference between working directory, staging area, and repository?
 
-Working Directory: This is where we edit files normally. 
-Staging Area: This is where we prepare changes before committing. 
+Working Directory: This is where we edit files normally.
+ 
+Staging Area: This is where we prepare changes before committing.
+ 
 Repository: This is where Git permanently saves committed changes.
