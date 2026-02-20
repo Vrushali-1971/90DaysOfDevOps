@@ -76,33 +76,47 @@ groups username
 1.When a user is created, Linux automatically creates a primary group with the same name.
 
 2.In sudo chown user:group file
+
 : is a separator between user and group.
 
 user:
+
 → User is specified
+
 → Group left empty
+
 → Only user changes
 
 :group
+
 → User left empty
+
 → Group specified
+
 → Only group changes
 
 user:group
+
 → Both user and group change
 
 3. Importance of -aG, -m, and su - in user management.
 
  -m (with useradd)
+ 
 → Creates a home directory for the user automatically.
 
 -aG (with usermod)
+
 → Adds user to a supplementary group.
+
 → -a = append (don’t remove existing groups)
+
 → -G = specify group list
 
 su - username
+
 → Switches to user with a login shell.
+
 → Loads user’s environment and home directory.
 
 
