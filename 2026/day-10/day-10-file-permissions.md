@@ -1,4 +1,4 @@
-# Day 10 – File Permissions & File Operations Challenge
+# Day 10 – File Permissions & File Operations Challenge 
 
 ## Goal:  Today's goal is to learn file permissions and perform hands-on tasks.
 
