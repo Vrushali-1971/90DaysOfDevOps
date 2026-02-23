@@ -108,7 +108,7 @@ Owner has read, write, and execute permissions, while group and others have read
 
 Tried:
 ```bash
-echo "text" >> devops.txt
+echo "text" > devops.txt
 ```
 The result was Permission denied because the file was set to read-only.
 
