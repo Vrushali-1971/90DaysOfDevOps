@@ -20,6 +20,7 @@ Today's goal is to master file and directory ownership in Linux through hands-on
 - bank-heist/
 
 ** Files inside directories **
+
 heist-project/
 - vault/gold.txt
 - plans/strategy.conf
