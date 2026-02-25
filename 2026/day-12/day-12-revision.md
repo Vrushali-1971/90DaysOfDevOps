@@ -87,14 +87,21 @@ ls -l revision.txt
 ```
 **Observation:** 
 Verified file ownership and permissions
-** Before ** 
+
+**Before** 
+
 -rw-rw-r-- 
+
 Owner - read and write
+
 Group - read and write 
+
 Others- read-only 
 
-** After ** 
+**After** 
+
 -r--r--r--
+
 read-only permission to all owner, group and others
 
 ### Commands I Would Use First in an Incident
