@@ -47,7 +47,7 @@ Displayed the contents of the file revision.txt.
 ### Ownership & Permission Practice
 
 ```bash
-chmod 444 revison.txt
+chmod 444 revision.txt
 ```
 **Observation:** 
 Changed file permissions to read-only for owner, group, and others.
@@ -116,9 +116,8 @@ and network connectivity during an incident.
 
 1. Which 3 commands save you the most time right now, and why?
 
- As a beginner learning Linux and DevOps, I haven’t handled real incidents yet.
- 
- However, these commands helped me the most during practice..
+  As a beginner learning Linux and DevOps, I haven’t handled real incidents yet.
+  However, these commands helped me the most during practice..
  
 - tmux (session management) – Helps me keep terminal sessions running even if my SSH connection disconnects. This prevents losing work on remote servers.
 
@@ -132,7 +131,6 @@ sudo systemctl status nginx
 ps aux | grep nginx
 ss -tuln
 ```
-
 These commands check the service status, running processes, and listening ports.
 
 3. How do you safely change ownership and permissions without breaking access?
