@@ -35,7 +35,8 @@ bank-heist/
 
 ### devops-file.txt
 
-Before: ubuntu:ubuntu
+**Before:** 
+ubuntu:ubuntu
 
 Changed owner to **tokyo**
 ```bash
@@ -45,7 +46,8 @@ Then changed owner to berlin
 
 sudo chown berlin devops-file.txt
 
-Result: berlin:ubuntu
+**Result:**
+berlin:ubuntu
 
 ### team-notes.txt
 
@@ -55,21 +57,24 @@ Changed group of the file:
 ```bash
 sudo chgrp heist-team team-notes.txt
 ```
-Result: ubuntu:heist-team
+**Result:**
+ubuntu:heist-team
 
 ### project-config.yaml
 Changed both owner and group in one command:
 ```bash
 sudo chown professor:heist-team project-config.yaml
 ```
-Result: professor:heist-team
+**Result:**
+professor:heist-team
 
 ### app-logs Directory
 Changed owner and group:
 ```bash
 sudo chown berlin:heist-team app-logs
 ```
-Result: berlin:heist-team 
+**Result:**
+berlin:heist-team 
 
 ### Recursive Ownership Change
 Directory structure created:
