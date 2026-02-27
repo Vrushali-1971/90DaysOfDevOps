@@ -25,9 +25,13 @@ Output - /dev/loop5
 ### Step 5: Check Current Storage
 
 `lsblk` - Displays information about block storage devices like disks and partitions.
+
 `pvs`   - Displays information about physical volumes (PVs) used in LVM (Logical Volume Manager).
+
 `vgs`   - Displays information about volume groups (VGs) in LVM.
+
 `lvs`   - Displays information about logical volumes (LVs) in LVM.
+
 `df -h` - Shows disk space usage of mounted filesystems in human-readable format (KB, MB, GB)
 
 ### Step 6: Create Physical Volume and Verify
