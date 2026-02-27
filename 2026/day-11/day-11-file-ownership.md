@@ -9,17 +9,17 @@ Today's goal is to master file and directory ownership in Linux through hands-on
 
 ## Files & Directories Created
 
-** Files **
+**Files**
 - devops-file.txt
 - team-notes.txt
 - project-config.yaml
   
-** Directories**
+**Directories**
 - app-logs/
 - heist-project/
 - bank-heist/
 
-** Files inside directories **
+**Files inside directories**
 
 heist-project/
 - vault/gold.txt
@@ -96,20 +96,20 @@ All files and subdirectories now belong to:
 professor:planners
 
 ### Bank Heist Directory Ownership
-Created files:
+**Created files:**
 ```bash
 mkdir bank-heist
 touch bank-heist/access-codes.txt
 touch bank-heist/blueprints.pdf
 touch bank-heist/escape-plan.txt
 ```
-Set ownership:
+**Set ownership:**
 ```bash
 sudo chown tokyo:vault-team bank-heist/access-codes.txt
 sudo chown berlin:tech-team bank-heist/blueprints.pdf
 sudo chown nairobi:vault-team bank-heist/escape-plan.txt
 ```
-Verification:
+**Verification:**
 ```bash
 ls -l bank-heist/
 ```
