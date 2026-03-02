@@ -35,6 +35,7 @@ and is mainly used for understanding how networking works conceptually.
 ### One real example:
 
 **Example:**
+
 ```bash
 curl https://github.com
 ```
@@ -53,6 +54,7 @@ Flow through the layers:
 ## Hands-on Checklist:
 
 **Identity**
+
 `hostname -I`
 
 **Observation:**
@@ -60,6 +62,7 @@ Flow through the layers:
 The command `hostname -I` displays the IP address assigned to the system's network interfaces.
 
 **Reachability**
+
 `ping github.com`
 
 **Observation:** 
@@ -68,20 +71,25 @@ Ping to github.com transmitted 41 packets with 0% packet loss and average latenc
 network connectivity.
 
 **Path**
+
 `traceroute github.com`
 
 **Observation:**
 
 The traceroute command showed multiple hops to reach github.com. Some intermediate routers did not respond 
+
 (* * *), which is normal in many networks.
 
 **Ports**
+
 `ss -tulpn`
 
 **Observation:** 
+
 Shows listening network ports and services on the system. Ports like 22 (SSH) and 53 (DNS resolver) are listening on localhost.
 
 **Name resolution** 
+
 `dig github.com`
 
 **Observation:**
@@ -89,6 +97,7 @@ Shows listening network ports and services on the system. Ports like 22 (SSH) an
 DNS lookup successfully resolved github.com to the IP address 140.82.116.4, confirming that domain name resolution is working.
 
 **HTTP check**
+
 `curl -I https://github.com`
 
 **Observation:**
@@ -96,18 +105,23 @@ DNS lookup successfully resolved github.com to the IP address 140.82.116.4, conf
 The server returned an HTTP 200 OK response, confirming that the GitHub web service is reachable and responding correctly.
 
 **Connections snapshot**
+
 `netstat -an | head`
 
 **Observation:** 
 
-Shows a snapshot of current network connections. The Output includes LISTEN and ESTABLISHED states, indicating active services and network connections.
+Shows a snapshot of current network connections. The Output includes LISTEN and ESTABLISHED states, indicating active services and 
+
+network connections.
 
 ## Mini Task: Port Probe & Interpret
 
 **Listening Port Identified**
 
 Port 22 (SSH) was found listening from the `ss -tulpn` output
+
 `nc -zv localhost 22`
+
 **Result:**
 
 Connection to localhost port 22 succeeded, confirming the SSH service is reachable.
@@ -122,7 +136,9 @@ The port is reachable. If it were not reachable, the next checks would be `syste
 
 1. Which command gives you the fastest signal when something is broken?
 
-systemctl status <service> gives the fastest signal because it immediately shows whether the service is active, inactive, or failed along with recent logs.
+systemctl status <service> gives the fastest signal because it immediately shows whether the service is active, inactive, or failed 
+
+along with recent logs.
 
 2. What layer would you inspect next?
 
