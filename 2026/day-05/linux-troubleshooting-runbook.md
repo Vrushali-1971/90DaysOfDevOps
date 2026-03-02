@@ -30,11 +30,13 @@ cat /etc/os-release
 
 **Snapshot**
 
-`PRETTY_NAME="Ubuntu 24.04.3 LTS"
+```
+PRETTY_NAME="Ubuntu 24.04.3 LTS"
 NAME="Ubuntu"
 VERSION="24.04.3 LTS (Noble Numbat)"
 VERSION_ID="24.04"
-ID=ubuntu`
+ID=ubuntu
+```
 
 **Observation**
 
@@ -51,8 +53,10 @@ ls
 ```
 **Snapshot**
 
-`runbook-demo
-systemd-private-xxxx`
+```
+runbook-demo
+systemd-private-xxxx
+```
 
 **Observation**
 
@@ -64,6 +68,7 @@ Created a temporary directory to perform file operations.
 cp /etc/hosts /tmp/runbook-demo/hosts-copy
 ls -l /tmp/runbook-demo
 ```
+
 **Snapshot**
 
 `-rw-r--r-- 1 ubuntu ubuntu 221 Feb 5 17:23 hosts-copy`
@@ -80,10 +85,12 @@ cat /tmp/runbook-demo/hosts-copy
 
 **Snapshot**
 
-`127.0.0.1 localhost
+```
+127.0.0.1 localhost
 ::1 localhost ip6-localhost ip6-loopback
 ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters`
+ff02::2 ip6-allrouters
+```
 
 **Observation**
 
@@ -99,9 +106,11 @@ top
 
 **Snapshot**
 
-`Tasks: 118 total, 1 running, 117 sleeping
+```
+Tasks: 118 total, 1 running, 117 sleeping
 %Cpu(s): 0.0 us, 4.5 sy, 90.9 id
-MiB Mem : 914.2 total, 377.0 free, 348.8 used`
+MiB Mem : 914.2 total, 377.0 free, 348.8 used
+```
 
 **Observation**
 
@@ -115,8 +124,10 @@ ps -o pid,pcpu,pmem,comm -p 915
 
 **Snapshot**
 
-`PID %CPU %MEM COMMAND
-915 0.0 0.8 sshd`
+```
+PID %CPU %MEM COMMAND
+915 0.0 0.8 sshd
+```
 
 **Observation**
 
@@ -130,11 +141,13 @@ free -h
 
 **Snapshot**
 
-`Mem: 914Mi total
+```
+Mem: 914Mi total
 344Mi used
 348Mi free
 569Mi available
-Swap: 0B`
+Swap: 0B
+```
 
 **Observation**
 
@@ -149,8 +162,10 @@ df -h
 
 **Snapshot**
 
-`Filesystem      Size  Used Avail Use%
-/dev/root       6.8G  2.3G  4.5G  34%`
+```
+Filesystem      Size  Used Avail Use%
+/dev/root       6.8G  2.3G  4.5G  34%
+```
 
 **Observation**
 
@@ -180,9 +195,11 @@ ss -tuln
 
 **Snapshot**
 
-`tcp LISTEN 0 4096 0.0.0.0:22
+```
+tcp LISTEN 0 4096 0.0.0.0:22
 tcp LISTEN 0 511 127.0.0.1:631
-tcp LISTEN 0 4096 127.0.0.53:53`
+tcp LISTEN 0 4096 127.0.0.53:53
+```
 
 **Observation**
 
@@ -198,8 +215,10 @@ journalctl -u ssh -n 50
 
 **Snapshot**
 
-`Started ssh.service - OpenBSD Secure Shell server.
-Accepted publickey for ubuntu from 18.202.xxx.xxx port 53137 ssh2`
+```
+Started ssh.service - OpenBSD Secure Shell server.
+Accepted publickey for ubuntu from 18.202.xxx.xxx port 53137 ssh2
+```
 
 **Observation**
 
