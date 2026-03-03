@@ -111,8 +111,10 @@ The server returned an HTTP 200 OK response, confirming that the GitHub web serv
 **Observation:** 
 
 Shows a snapshot of current network connections. The Output includes LISTEN and ESTABLISHED states, indicating active services and 
-
 network connections.
+
+-LISTEN → 7
+-ESTABLISHED → 1
 
 ## Mini Task: Port Probe & Interpret
 
