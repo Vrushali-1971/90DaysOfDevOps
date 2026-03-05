@@ -60,11 +60,10 @@ It is written in dotted decimal format such as 192.168.1.10.
 
 - Public vs Private IP
 
-| Type | Description |	Example |
-
-|Public IP |	Accessible over the internet |	8.8.8.8 |
-
-|Private IP |	Used inside private networks |	192.168.1.10 |
+| Type | Description | Example |
+|------|-------------|--------|
+| Public IP | Accessible over the internet | 8.8.8.8 |
+| Private IP | Used inside private networks | 192.168.1.10 |
 
 ## 3. What are the private IP ranges?
 
@@ -99,10 +98,13 @@ Subnetting divides a large network into smaller networks to improve security, ef
 
 **CIDR Table**
 
-| CIDR |	Subnet Mask |	Total IPs |	Usable Hosts |
-| /24 |	255.255.255.0 |	256 | 254 |
-| /16	| 255.255.0.0	| 65536 |	65534 |
-| /28 |	255.255.255.240 |	16 | 14 |
+
+| CIDR | Subnet Mask | Total IPs | Usable Hosts |
+|------|-------------|-----------|--------------|
+| /24 | 255.255.255.0 | 256 | 254 |
+| /16 | 255.255.0.0 | 65536 | 65534 |
+| /28 | 255.255.255.240 | 16 | 14 |
+
 
 # Task 4: Ports – The Doors to Services
 
