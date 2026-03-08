@@ -238,7 +238,7 @@ cpu_processes() {
 }
 
 main() {
-    echo "===== SYSTEM REPORT ====="
+    echo "------ SYSTEM REPORT ------"
     system_info
     uptime_info
     disk_usage
