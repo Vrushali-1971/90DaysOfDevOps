@@ -9,7 +9,7 @@ Applied everything from Days 16–18 in real-world mini projects:
 - Combined maintenance script
 
 
-## Task 1: Log Rotation Script — log_rotate.sh
+## Task 1: Log Rotation Script — `log_rotate.sh`
 
 ### Script
 
@@ -68,7 +68,7 @@ chmod +x log_rotate.sh
 sudo ./log_rotate.sh /var/log/nginx
 ```
 
-## Task 2: Server Backup Script — backup.sh
+## Task 2: Server Backup Script — `backup.sh`
 
 ### Script
 
