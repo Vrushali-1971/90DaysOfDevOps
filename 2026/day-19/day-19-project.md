@@ -230,12 +230,9 @@ sudo ./maintenance.sh
 
 ### What I Learned
 
-- find with -mtime and -delete — You can search for files by age and act on them in one command.
-
-  -mtime +7 means older than 7 days, + means older, - means newer.
-- tar -czf with -C and basename — Creating clean archives requires changing into the parent directory first with -C $(dirname $SRC)
-
-   so the archive doesn't store the full absolute path inside.
-- 2>&1 and tee -a — Redirecting both stdout and stderr to a log file ensures errors are captured too.
-
-   tee -a lets you print to terminal AND append to a f
+1. find with -mtime and -delete — You can search for files by age and act on them in
+   one command. -mtime +7 means older than 7 days, + means older, - means newer.
+2. tar -czf with -C and basename — Creating clean archives requires changing into
+   the parent directory first with -C $(dirname $SRC) so the archive doesn't store the full absolute path inside.
+3. 2>&1 and tee -a — Redirecting both stdout and stderr to a log file ensures errors are captured too.
+    tee -a lets you print to terminal AND append to a file at the same time.
