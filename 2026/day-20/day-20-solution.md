@@ -70,7 +70,7 @@ echo "Log file moved to $ARCHIVE_DIR/"
 
 ---
 
-## How to Run
+### How to Run
 
 ```bash
 # Step 1 - Generate sample log
@@ -83,7 +83,7 @@ cd ~/90DaysOfDevOps/2026/day-20
 
 ---
 
-## Sample Output
+### Sample Output
 
 ### Terminal Output
 
@@ -116,7 +116,7 @@ Line 42:  2026-03-12 13:26:16 [CRITICAL] - 16139
 
 ---
 
-## Generated Report: `log_report_2026-03-12.txt`
+### Generated Report: `log_report_2026-03-12.txt`
 
 ```
 ===== Log Analysis Report =====
@@ -156,7 +156,7 @@ Line 86:  2026-03-12 13:26:16 [CRITICAL] - 7870
 
 ---
 
-## Commands and Tools Used
+### Commands and Tools Used
 
 **`grep`** — searched for patterns like `ERROR`, `Failed`, `CRITICAL` inside the log file. Used `-c` flag to count matching lines and `-E` for extended regex to match multiple patterns at once.
 
@@ -176,7 +176,7 @@ Line 86:  2026-03-12 13:26:16 [CRITICAL] - 7870
 
 ---
 
-## What I Learned
+### What I Learned
 
 1. **`sort` must come before `uniq -c`** — `uniq -c` only counts consecutive identical lines. Without sorting first, duplicate error messages spread across the file are treated as separate entries and each gets a count of 1. Sorting groups them together first so `uniq -c` counts them correctly.
 
