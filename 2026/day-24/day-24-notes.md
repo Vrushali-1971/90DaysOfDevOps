@@ -12,13 +12,13 @@ A fast-forward merge happens when the branch being merged has not diverged from 
 
 Git creates a merge commit when both branches have moved independently after the point they diverged. When a commit was added to **master** before merging **feature-signup**, both branches had their own history. Git had to create a new commit with two parents to combine them. This is called a 3-way merge.
 
-#### Observed: When merging **feature-signup** into master after adding a commit to master, Git opened the editor for a merge commit message and the log showed a diamond shape in **git log --oneline --graph --all**.
+#### Observed: When merging **feature-signup** into master after adding a commit to master, Git opened the editor for a merge commit message and the log showed a diamond shape in `git log --oneline --graph --all`.
 
 ### What is a merge conflict?
 
 A merge conflict happens when two branches edit the same line of the same file differently. Git cannot decide which version to keep, so it marks the conflict in the file and asks the developer to resolve it manually.
 
-#### Observed: After editing **style.css** with **color: blue** on master and **color: red** on **feature-conflict** (using > to overwrite the same line), running **git merge feature-conflict** produced:
+#### Observed: After editing **style.css** with **color: blue** on master and **color: red** on **feature-conflict** (using > to overwrite the same line), running `git merge feature-conflict` produced:
 
 ```
 CONFLICT (content): Merge conflict in style.css
@@ -35,7 +35,7 @@ color: red
 >>>>>>> feature-conflict
 ```
 
-After manually keeping **color: blue** and removing the markers, the conflict was resolved with **git add** and **git commit**.
+After manually keeping **color: blue** and removing the markers, the conflict was resolved with `git add` and `git commit`.
 
 #### Key learning: Using **>>** appends new lines so Git sees no conflict. Using **>** overwrites the same line, which causes a conflict.
 
@@ -49,7 +49,7 @@ Rebase takes the commits from your branch, temporarily removes them, sets the br
 
 Merge preserves the true history — you can see where branches diverged and came back together (diamond shapes in the graph). Rebase rewrites history to look linear — it appears as if the branch was always built on top of the latest master with no branching at all.
 
-#### Observed: After rebasing **feature-dashboard** onto master, **git log --oneline --graph --all** showed completely linear history at the top with no **|\** or **|/** symbols, unlike the merge commits lower in the log.
+#### Observed: After rebasing **feature-dashboard** onto master, `git log --oneline --graph --all` showed completely linear history at the top with no |\ or |/ symbols, unlike the merge commits lower in the log.
 
 ### Why should you never rebase commits that have been pushed and shared with others?
 
@@ -65,9 +65,9 @@ Rebase rewrites commit hashes. If someone else has already pulled your original 
 
 ### What does squash merging do?
 
-**git merge --squash** takes all the commits from the feature branch and combines them into a single set of changes, stages them, and lets you commit them as one single commit on the target branch. The individual commits from the branch do not appear in the main branch history.
+`git merge --squash` takes all the commits from the feature branch and combines them into a single set of changes, stages them, and lets you commit them as one single commit on the target branch. The individual commits from the branch do not appear in the main branch history.
 
-#### Observed: **feature-profile** had 4 commits (Profile draft, Typo fix, Formatting, Minor tweak). After **git merge --squash feature-profile** and committing, only one commit **Add profile page (squashed)** appeared in master's log.
+#### Observed: **feature-profile** had 4 commits (Profile draft, Typo fix, Formatting, Minor tweak). After `git merge --squash feature-profile` and committing, only one commit **Add profile page (squashed)** appeared in master's log.
 
 ### When would you use squash merge vs regular merge?
 
@@ -82,10 +82,10 @@ You lose the individual commit history. If a bug is introduced, it's harder to p
 
 ### What is the difference between git stash pop and git stash apply?
 
-- **git stash pop** — applies the stash and removes it from the stash list.
-- **git stash apply** — applies the stash but keeps it in the stash list. You can apply it again later or on another branch.
+- `git stash pop`— applies the stash and removes it from the stash list.
+- `git stash apply` — applies the stash but keeps it in the stash list. You can apply it again later or on another branch.
 
-#### Observed: After **git stash pop**, the stash was dropped from the list **(Dropped refs/stash@{0})**. After **git stash apply stash@{0}**, the stash remained visible in **git stash list**.
+#### Observed: After `git stash pop`, the stash was dropped from the list `(Dropped refs/stash@{0})`. After `git stash apply stash@{0}`, the stash remained visible in `git stash list`.
 
 ### When would you use stash in a real-world workflow?
 
@@ -107,9 +107,9 @@ git stash drop stash@{0}           # delete a specific stash
 
 ### What does cherry-pick do?
 
-**git cherry-pick <hash>** takes a specific commit from any branch and applies it onto the current branch as a new commit. Only that one commit's changes are applied — not the entire branch.
+`git cherry-pick <hash>` takes a specific commit from any branch and applies it onto the current branch as a new commit. Only that one commit's changes are applied — not the entire branch.
 
-#### Observed: **feature-hotfix** had 3 commits (Fix A, Fix B, Fix C). After cherry-picking only Fix A and Fix B onto master, **git log --oneline** showed only those two commits on master. Fix C was not present.
+#### Observed: **feature-hotfix** had 3 commits (Fix A, Fix B, Fix C). After cherry-picking only Fix A and Fix B onto master, `git log --oneline` showed only those two commits on master. Fix C was not present.
 
 ### When would you use cherry-pick in a real project?
 
