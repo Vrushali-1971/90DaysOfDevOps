@@ -188,11 +188,14 @@ Large tech companies like Google and Facebook for internal projects. Teams with 
 ### Answers:
 
 **Which strategy would you use for a startup shipping fast?**
+
 GitHub Flow — it is simple, fast, and keeps things moving without overhead. One main branch, feature branches, pull requests, deploy. That's all you need when moving fast.
 
 **Which strategy would you use for a large team with scheduled releases?**
+
 GitFlow — it is structured and organized. The separation between develop, release, and main branches makes it easy to manage scheduled releases and maintain multiple versions.
 
 **Which one does React (facebook/react) use?**
+
 GitHub Flow. Observed on GitHub — React has one `main` branch as default and many short lived feature branches like `devtools/activity-hidden`, `builds/facebook-fbsource`, and automated `dependabot` branches. All contributions come in through pull requests and get merged into main. History shows continuous commits directly to main with no long running parallel branches.
 
