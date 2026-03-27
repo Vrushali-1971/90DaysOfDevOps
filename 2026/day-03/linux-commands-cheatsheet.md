@@ -1,6 +1,6 @@
 ## Day 03 – Linux Commands Practice
 
-goal: Build confidence in commonly used Linux commands.
+Goal: Build confidence in commonly used Linux commands.
 
 This cheat sheet focuses on:
 
@@ -37,7 +37,7 @@ This cheat sheet focuses on:
  
  df -h  - Displays disk space usage in human-readable format.
  
- du -sh <dir> - Shows size of a directory or file
+ du -sh - Shows size of a directory or file
  
  chmod  - Changes file or directory permissions.
  
