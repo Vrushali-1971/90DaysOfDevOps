@@ -19,8 +19,9 @@ I solved the data loss problem by using a **Named Volume**.
 
 ### **Task 3: Bind Mounts for Development**
 I linked my local Ubuntu folder to an Nginx container. This allowed me to update my website instantly without rebuilding the image.
-![Task 3 - Initial Website](./images/Screenshot_2026-04-02_162310.jpg)
-![Task 3 - Live Update](./images/Screenshot_2026-04-02_162550.jpg)
+![Task 3 ](./images/task3)
+![Task 3 - Initial Website](./images/Screenshot1.jpg)
+![Task 3 - Live Update](./images/Screenshot2.jpg)
 * **Command Used:** `docker run -d -v $(pwd)/website:/usr/share/nginx/html nginx`
 
 ---
@@ -37,19 +38,18 @@ I tested how containers talk to each other.
 
 ## 🏗️ Section 3: Full Stack Integration (Task 6)
 
-### **The Grand Finale: Connecting App to Database**
-I deployed a multi-container setup where a Web GUI (Adminer) connects to a Postgres Database using the container name.
+### **Connecting Adminer to PostgreSQL**
+I built a multi-container environment where a Web UI communicates with a Database over a private network.
+![Task 6](./images/task6)
 
-#### **The Debugging Phase**
-Initially, I faced a `Connection Refused` error.
-![Task 6 - Connection Refused](./images/Screenshot_2026-04-02_171756.jpg)
-* **Diagnosis:** I realized the "System" dropdown was set to MySQL instead of PostgreSQL. 
-* **The Fix:** I switched the driver and ensured both containers were on the `my-app-net` network.
+#### **The Troubleshooting Phase**
+Initially, I hit a "Connection Refused" error.
+![Task 6 - Debugging](./images/Screenshot3.jpg)
+* **The Fix:** I realized the "System" was set to MySQL. I switched it to PostgreSQL and verified both containers were on the same network.
 
-#### **Final Success**
-![Task 6 - Connection Success](./images/task6.jpg)
-![Task 6 - Database Visible](./images/task_1.1.jpg)
-* **Result:** I can now view my persistent database tables directly through the browser!
+#### **The Final Result (Successful Login)**
+![Task 6 - Connected Database](./images/Screenshot4.jpg)
+* **Outcome:** The Adminer UI successfully connected to the database, showing my `persistent_users` table was intact and accessible.
 
 ---
 
