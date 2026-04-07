@@ -1,0 +1,53 @@
+services:
+  web:
+    build: ./app
+    ports:
+      - "5000:5000"
+    restart: on-failure
+    depends_on: 
+      db:
+        condition: service_healthy
+    networks:
+      - josh-net 
+    labels: 
+      project: "josh-batch-10"
+      version: "1.0" 
+      owner: "devops-student"   
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password123
+    volumes:
+      - db_data:/var/lib/postgresql/data    
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - josh-net
+    labels:
+      project: "josh-batch-10"
+      type: "database"    
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes: 
+      - redis_data:/data  
+    networks:
+      - josh-net
+    labels: 
+      project: "josh-batch-10"
+      type: "cache"    
+
+networks:
+  josh-net:
+    driver: bridge
+
+volumes: 
+  db_data:  
+  redis_data:  
