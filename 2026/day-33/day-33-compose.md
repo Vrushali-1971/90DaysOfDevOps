@@ -10,7 +10,7 @@ Today’s task focused on moving from manual container management to **Infrastru
 * Verified the installation:
   ```bash
   docker compose version
-```
+  ```
 
 ####  Output: Docker Compose version v5.1.1
 
@@ -49,8 +49,7 @@ To follow DevOps best practices, I moved sensitive data and configurations into 
 
 My `.env` file:
 
-```
-Plaintext
+```Plaintext
 
 DB_PASSWORD=password123
 DB_NAME=wordpress
@@ -58,8 +57,8 @@ WP_PORT=8081
 ```
 
 My `docker-compose.yml` snippet:
-```
-YAML
+
+```YAML
 
 services:
   db:
