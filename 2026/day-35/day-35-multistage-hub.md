@@ -15,7 +15,7 @@ I created a simple "Hello World" application in Go and built it using a single-s
   COPY . .
   RUN go mod init myapp && go build -o myapp .
   CMD ["./myapp"]
-```
+
 - **Observed Size:** `841 MB`
 
 - The Issue: The image is huge because it includes the entire Debian OS, Go compiler, build tools, and caches that aren't needed at runtime
@@ -92,9 +92,9 @@ CMD ["./myapp"]
 ```
 
 ### Verification & Learning
-- Size on Docker Hub: The compressed size is only 4.75 MB.
+- Size on Docker Hub: The compressed size is only `4.75 MB`.
 
-- Security Check: Running docker run --rm vrushalicloud/myapp-optimized:v2 whoami returns appuser.
+- Security Check: Running `docker run --rm vrushalicloud/myapp-optimized:v2 whoami` returns `appuser`.
 
 - Key Takeaway: Multi-stage builds are essential for CI/CD pipelines to save bandwidth, storage costs, and improve security by reducing the attack surface
 
