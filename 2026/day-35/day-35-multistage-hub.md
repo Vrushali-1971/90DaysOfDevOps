@@ -20,6 +20,8 @@ I created a simple "Hello World" application in Go and built it using a single-s
 
 - The Issue: The image is huge because it includes the entire Debian OS, Go compiler, build tools, and caches that aren't needed at runtime
 
+![Initial Build Error and Success](./images/task1_build_error.jpg)
+
 ## Task 2: Multi-Stage Build (Optimization)
 
 I refactored the build process to separate the "Build" environment from the "Run" environment.
@@ -31,6 +33,7 @@ I refactored the build process to separate the "Build" environment from the "Run
 ### Why is it smaller? 
 The Multi-stage build allows us to discard the heavy `golang` image (800MB+) after the binary is created. The final image only contains the `alpine` base (~5MB) and the compiled binary.
 
+![Image Size Comparison 841MB vs 10MB](./images/comparison.jpg)
 
 ## Task 3 & 4: Docker Hub Distribution
 I pushed the optimized image to my public Docker Hub repository.
@@ -51,6 +54,8 @@ docker tag myapp-optimized:v1 vrushalicloud/myapp-optimized:v1
 docker push vrushalicloud/myapp-optimized:v1
 ```
 
+![Docker Hub Terminal Login](./images/docker_hub_login.jpg)
+
 ## Task 5: Image Best Practices & Security
 I applied the following optimizations to create the final production-ready image (`v2`):
 
@@ -62,6 +67,9 @@ I applied the following optimizations to create the final production-ready image
 
 4. Static Linking: Used `CGO_ENABLED=0` to ensure the binary runs on Alpine's `musl` library.
 
+![Security Verification - Non-Root User](./images/security_check.jpg)
+
+![Docker Hub Repository Overview](./images/dockerhub.jpg)
 
 #### Final Optimized Dockerfile:
 
