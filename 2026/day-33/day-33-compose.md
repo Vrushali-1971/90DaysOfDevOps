@@ -73,23 +73,28 @@ services:
 
 ### **1. Installation & Version Check**
 Verified that Docker Compose is installed and ready.
-![Docker Compose Version](./version-check.jpg)
+
+![Docker Compose Version](./images/version-check.jpg)
 
 ### **2. Task 2: Nginx Access**
 Verified the single-container Nginx setup on port 8080.
-![Nginx Welcome Page](./nginx-access.jpg)
+
+![Nginx Welcome Page](./images/nginx-access.jpg)
 
 ### **3. Task 3: WordPress Dashboard (Persistence Proof)**
 Proof that the Database successfully saved my setup data even after a `docker compose down`.
-![WordPress Dashboard](./wp-dashboard.jpg)
+
+![WordPress Dashboard](./images/wp-dashboard.jpg)
 
 ### **4. Task 4: Command Lifecycle**
 Screenshot showing the successful execution of `stop`, `down`, and `up --build`.
-![Lifecycle Commands](./lifecycle-commands.jpg)
+
+![Lifecycle Commands](./images/lifecycle-commands.jpg)
 
 ### **5. Task 5: Environment Variables**
 Verified that the `.env` variables were correctly picked up using the `config` command.
-![Compose Config](./env-config.jpg)
+
+![Compose Config](./images/env-config.jpg)
 
 ### 💡 Key Learnings
 - Automation: Docker Compose saves massive amounts of time compared to manual networking and volume creation.
