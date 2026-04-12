@@ -54,8 +54,31 @@ Port Collision. > On a single host (EC2), a port like 5000 can only be used by o
 - **Database:** PostgreSQL 15
 - **Orchestration:** Docker Compose V2
 
-## How to Run
+### How to Run
 
 1. Navigate to the `day-34/advanced-stack` folder.
 2. Run `docker compose up -d`.
 3. Access the app at `http://<EC2-Public-IP>:5000`.
+
+## proof of Work/Screenshots
+
+### Task 3: Restart Policies
+
+![Task 3](./images/task3.jpg)
+
+### Task 5: Named Networks & Volumes
+
+![Task 5 Terminal](./images/task5.jpg)
+
+![Task 5 Labels](./images/task5-labels.jpg)
+
+![Task 5 Webpage](./images/task%205.2%20webpage.jpg)
+
+### Task 6: Scaling
+
+![Task 6 Terminal](./images/task6.jpg)
+
+![Task 6 Webpage](./images/task6-%20webpage.jpg)
+
+
+
