@@ -30,24 +30,34 @@ The verification below confirms the system re-pulled the official images (since 
 
 ### **Final Deployment on Docker Hub**
 The image was pushed to the registry, finalizing the Day 36 requirements.
-![Docker Hub Tags and Size](./images/5_docker_hub_size.jpg)
+![Docker Hub Tags and Size](./images/docker_hub_repo.jpg)
 ---
 
-## 4. Challenges & Resolutions
+## 3. Challenges & Troubleshooting (Error vs. Solution)
 
 ### **Challenge 1: Pathing and ModuleNotFoundError**
-During the initial build, the `devopsuser` (non-root) could not locate the installed Python packages because the paths were inconsistent between the build stage and the final stage.
-* **Solution:** I implemented a **Virtual Environment (`venv`)** within the Dockerfile. By installing dependencies into `/opt/venv` and explicitly setting the `PATH` environment variable in both stages, I ensured the application remained isolated and functional under non-root permissions.
+When attempting the initial build with a multi-stage Dockerfile and a non-root user (`devopsuser`), the application container crashed on startup.
+
+**The Diagnostic Process:**
+The single terminal screenshot below captures the critical failure and the successful resolution.
+
+* **The Problem (Red Logs):** The upper portion of the logs clearly shows `ModuleNotFoundError: No module named 'flask'`. This verified that the `devopsuser` did not have permission to access the Flask library because it was installed in the builder stage but not correctly pathing in the final stage.
+
+* **The Solution (Blue Logs):** The lower portion of the logs shows the `docker compose up -d --build` execution after modifying the Dockerfile. I implemented a **Virtual Environment (`venv`)** inside the `/opt/venv` directory and updated the system `PATH` environment variable. This ensured the application remained isolated, portable, and accessible to the non-root user.
+
+![1_troubleshooting_module_error.png](./images/troubleshooting_module_error.jpg)
+
+---
 
 ### **Challenge 2: Resource Management on AWS EC2**
-Running multiple projects on a t3.Micro instance (1GB RAM) created storage pressure.
+Running multiple projects on a T2.Micro instance (1GB RAM) created storage pressure.
 * **Solution:** I performed strict **Image Hygiene**. I removed all old, dangling, and redundant images from previous tasks (Day 30–35) using `docker system prune` and `docker rmi`. This cleared space for the new MySQL and Flask images to run without disk errors.
 
 ---
 
 ## 5. Technical Specifications
 * **Final Image Size (Docker Hub):** 82.75 MB (Compressed)
-* **Final Image Size (Local System):** ~242 MB (Uncompressed)
+* **Final Image Size (Local System):** 242 MB (Uncompressed)
 * **Base Image:** `python:3.9-slim`
 
 ---
