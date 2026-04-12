@@ -1,0 +1,10 @@
+.git
+__pycache__
+*.pyc
+.env
+venv
+.dockerignore
+Dockerfile
+docker-compose.yml
+day-36-docker-project.md
+images/
