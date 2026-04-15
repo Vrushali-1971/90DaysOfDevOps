@@ -84,3 +84,7 @@ WORKDIR /app
 COPY --from=builder /app .
 EXPOSE 8080
 CMD ["python", "hello.py"]
+```
+
+### 📚 Resources
+- [View my Docker Cheat Sheet](./docker-cheatsheet.md)
