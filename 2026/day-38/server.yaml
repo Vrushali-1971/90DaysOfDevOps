@@ -1,0 +1,22 @@
+server:
+  name: My-EC2-Instance
+  ip: 172.31.30.185
+  port: 8080
+
+database:
+  host: 127.0.0.1
+  name: main_db
+  credentials:
+    user: vrush
+    password: "My_password_1234"
+
+startup_script_block: |
+  # This is a block style script
+   sudo apt update
+   sudo apt install nginx -y
+
+startup_script_folded: >
+  This is a long description that 
+  I want to write on multiple lines
+  in my file, but I want YAML to 
+  read it as one single long sentence.

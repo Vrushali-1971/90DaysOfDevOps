@@ -1,0 +1,20 @@
+# User Profile
+---
+name: Vrushali Ambore
+role: Aspiring DevOps Engineer
+experience_years: 0
+learning: true
+
+# List using Block Style (Best for long, readable lists)
+tools: 
+  - Linux
+  - Shell scripting
+  - Git and GitHub
+  - Docker
+  - GitHub Actions  
+
+# List using Flow/Inline Style (Best for short, compact data)
+hobbies: [painting , baking, art and craft]
+
+    
+
