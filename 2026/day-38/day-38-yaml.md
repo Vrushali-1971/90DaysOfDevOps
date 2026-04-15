@@ -33,25 +33,25 @@ I used **YAML Lint** to validate my files and intentionally broke them to unders
 
 ### Case 1: The Mandatory Space Rule
 
-![Error: Missing Space after Colon](./error-missing-space.png)
+![Error: Missing Space after Colon](./images/error-missing-space.jpg)
 
 **Why it failed:** I removed the space after `hobbies:`. YAML requires a space after the colon to distinguish between the **Key** and the **Value**. Without it, it's just a broken string.
 
 ### Case 2: Inconsistent Indentation (Valid but risky)
 
-![Valid YAML with mixed indentation](./valid-mixed-indentation.png)
+![Valid YAML with mixed indentation](./images/valid-mixed-indentation.jpg)
 
 **Why it showed Valid:** YAML is flexible about *how many* spaces you use (2 vs 4), as long as all "sibling" keys under the same parent are aligned.
 
 ### Case 3: The Alignment Error (Mapping Items)
 
-![Error: Mapping items alignment](./error-alignment-mismatch.png)
+![Error: Mapping items alignment](./images/error-alignment-mismatch.jpg)
 
 **Why it failed:** I moved one key but left the others. In YAML, all items at the same level **must** start at the exact same vertical column.
 
 ### Case 4: Missing List Hyphen
 
-![Valid YAML with missing hyphen](./valid-person-config.png)
+![Valid YAML with missing hyphen](./images/valid-person-config.jpg)
 
 **Why it showed Valid:** Missing the hyphen for "Linux" didn't crash the file, but it changed the structure. YAML thought "Linux" was a direct value of `tools` instead of an item in a list.
 
