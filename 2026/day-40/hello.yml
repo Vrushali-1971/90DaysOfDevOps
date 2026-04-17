@@ -1,0 +1,29 @@
+name: github workflow
+
+on:
+  push:
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Say Hello
+        run: echo "Hello from GitHub Actions!"
+
+      - name: Show Current Date and Time
+        run: date
+
+      - name: Print the Branch name
+        run: echo "The Current branch is ${{ github.ref_name }}"
+
+      - name: List files in the current repo
+        run: ls -R
+
+      - name: Print the Runner's Operating system
+        run: echo "Running on ${{ runner.os }}"
+
+ #    - name: Intentional Failure Step
+ #      run: exit 1
