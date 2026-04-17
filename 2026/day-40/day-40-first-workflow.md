@@ -32,7 +32,7 @@ Today, I moved from theoretical CI/CD concepts to hands-on automation. I success
 ### Final Successful Run
 ![Final Green Run](./images/day-40-fixed-workflow.png)
 
-### History of Progress (March to April)
+### Workflow history
 ![Workflow History](./images/day-40-workflows.png)
 
 ### Intentional Failure Test (Task 5)
