@@ -30,13 +30,13 @@ Today, I moved from theoretical CI/CD concepts to hands-on automation. I success
 ## Proof of Work
 
 ### Final Successful Run
-![Final Green Run](./day-40-fixed-workflow.png)
+![Final Green Run](./images/day-40-fixed-workflow.png)
 
 ### History of Progress (March to April)
-![Workflow History](./day-40-workflows.png)
+![Workflow History](./images/day-40-workflows.png)
 
 ### Intentional Failure Test (Task 5)
-![Intentional Failure](./day-40-failed-workflow.png)
+![Intentional Failure](./images/day-40-failed-workflow.png)
 
 ### Terminal Workflow
-![CLI Operations](./day-40-terminal.png)
+![CLI Operations](./images/day-40-terminal.png)
