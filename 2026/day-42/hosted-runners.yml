@@ -1,0 +1,40 @@
+name: Hosted Runners
+
+on:
+  push:
+
+jobs: 
+  ubuntu-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print details
+        run: |
+          echo "Running on Ubuntu"
+          hostname
+          whoami
+      
+      - name: Check installed tools
+        run: |
+          docker --version
+          python --version
+          node --version
+          git --version    
+      
+  windows-job:
+    runs-on: windows-latest
+    steps:
+      - name: Print details
+        run: |
+          echo "Running on Windows"
+          hostname
+          whoami
+
+  macos-job:
+    runs-on: macos-latest
+    steps:
+      - name: Print details
+        run: |
+          echo "Running on macOS"
+          hostname
+          whoami
+              
