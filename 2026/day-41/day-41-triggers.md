@@ -12,31 +12,37 @@ I created a workflow that acts as a gatekeeper for the `main` branch. It only tr
 
 #### Screenshots:
 Checked pull request on GitHub and confirmed pr-check workflow is running 
-![PR check on the Pull Request page](./images/day-41-pr-check)
+![PR check on the Pull Request page](./images/day-41-pr-check.jpg)
 
 
 ### Task 2: Scheduled Trigger (Cron)
-I implemented a scheduled workflow using Cron syntax.File: .github/workflows/scheduled.ymlYAMLname: Daily Midnight Sync
+- I implemented a scheduled workflow using Cron syntax
+- Set it to run every day at midnight UTC
 
 [Scheduled Trigger yaml file](./workflows/scheduled.yml)
 
-![Daily Midnight sync](./images/day-41-daily-midnight-sync)
+![Daily Midnight sync](./images/day-41-daily-midnight-sync.jpg)
 
 #### Cron Challenge:Question: 
 #### What is the cron expression for every Monday at 9 AM?
 Answer: `0 9 * * 1`
 
 ### Task 3: Manual Trigger (workflow_dispatch)
-I added a manual trigger that allows users to trigger the workflow from the GitHub UI with specific inputs.File: .github/workflows/manual.ymlYAMLname: Manual Workflow
+- Created a manual.yml file
+- I added a manual trigger that allows users to trigger the workflow from the GitHub UI
+- Added an input that asks for an environment name (staging/production) and printed the input value  
 
 [Manual Trigger yaml file](./workflows/manual.yml)
 
-![Manual "Run workflow" with environment selection](./images/day-41-manual-trigger-workflow-1)
-![Manual-trigger-workflow](./images/day-41-manual-trigger-workflow)
+Question: Can you trigger it manually and see your input printed? - **Yes**
+![Manual "Run workflow" with environment selection](./images/day-41-manual-trigger-workflow-1.jpg)
+
+![Manual-trigger-workflow](./images/day-41-manual-trigger-workflow.jpg)
 
 
 ### Task 4: Matrix Builds
-I Used a matrix Strategy to run the same job across python versions: `3.10`, `3.11`, `3.12` and ensure that each job installs python and prints the version, watched them run inparallel and extended the matrix to include two operating sytems.
+- I Used a matrix Strategy to run the same job across python versions: `3.10`, `3.11`, `3.12`.
+- ensure that each job installs python and prints the version, watched them run inparallel and extended the matrix to include two operating sytems.
 
 #### Basic Matrix (Python versions)
 ```yaml
@@ -96,9 +102,9 @@ jobs:
 ```
 
 
-![Matrix Build Showing 3 Paralled jobs in the Actions tab](./images/day-41-matrix-workflow)
+![Matrix Build Showing 3 Paralled jobs in the Actions tab](./images/matrix-workflow.jpg)
 
-![Matrix Build showing 6 parallel jobs in the Actions tab](./images/day-41-extended-matrix-workflow)
+![Matrix Build showing 6 parallel jobs in the Actions tab](./images/day-41-extended-matrix-workflow.jpg)
 
 
 ### Task 5: Exclude & Fail-Fast
@@ -106,7 +112,17 @@ Updated matrix YAML configuration to exclude python 3.10 version on windows and 
 
 [Matrix Build yaml file](.workflows/matrix.yml)
 
-![Matrix Build fail-fast output](./images/day-41-matrix-forced-failure)
+![Matrix Build fail-fast output](./images/day-41-matrix-forced-failure.jpg)
+
+### What does fail-fast: true (the default) do vs false?
+| Feature |	fail-fast: true (Default) |	fail-fast: false |
+|---------|---------------------------|------------------|
+| Response to Error |	Stops immediately |	Continues operation |
+| Goal |	Ensure system integrity |	Process as much as possible |
+| Best For |	Catching bugs early, preventing corruption |	Gathering all errors at once, flexible starts |
 
 
-### Key Learnings:Total Jobs: Without exclusion, 6 jobs run ($3 \times 2$). With the exclusion, 5 jobs ran in parallel.Fail-Fast: * fail-fast: true (Default): If one job in the matrix fails, GitHub cancels all other running jobs.fail-fast: false: Allows all jobs to complete their execution even if one fails. 
+### Key Learnings:
+- **Total Jobs:** Without exclusion, 6 jobs run ($3 \times 2$). With the exclusion, 5 jobs ran in parallel.
+- **Fail-Fast:**  `fail-fast: true` (Default): If one job in the matrix fails, GitHub cancels all other running jobs.
+- `fail-fast: false`: Allows all jobs to complete their execution even if one fails. 
