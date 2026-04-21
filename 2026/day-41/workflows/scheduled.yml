@@ -1,0 +1,11 @@
+name: Daily Midnight Sync
+on:
+  schedule:
+    - cron: '0 0 * * *'  # This means 12:00 AM UTC every day
+
+jobs:
+  scheduled_task:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scheduled Execution
+        run: echo "This job runs automatically every night at midnight UTC!"
