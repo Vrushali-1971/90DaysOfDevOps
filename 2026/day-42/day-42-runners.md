@@ -25,7 +25,7 @@ Each job prints:
 ---
 **Screenshot:**
 
-![Task-1-Hosted runners](./images/day-42-hosted-runners.ipg)
+![Task-1-Hosted runners](./images/day-42-hosted-runners.jpg)
 
 ###  What is a GitHub-hosted runner?
 
