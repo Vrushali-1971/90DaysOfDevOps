@@ -9,7 +9,7 @@ and running steps only when certain conditions are met.
 - Made test and deploy jobs depend on their previous jobs.
 - Watched them run after one another in workflow grpah in Actions tab.
 
-[Multi-job Workflow YAML file](./multi-job.yml)
+[Multi-job Workflow YAML file](./workflows/multi-job.yml)
 
 **Screenshots:**
 ### Question:  Check the workflow graph in the Actions tab — does it show the dependency chain?
@@ -28,7 +28,7 @@ yes, it shows the dependency chain.
 - Printed all three in a single step and verified each is accessible.
 - Used `GitHub context variable` to print the commit SHA and the actor (who triggered the run).
 
-[Environment Variables YAML file](./env-var.yml)
+[Environment Variables YAML file](./workflows/env-var.yml)
 
 **Screenshots:**
 ![Environment Variables Workflow on GitHub Actions](./images/environment-variables-workflow.jpg)
@@ -38,7 +38,7 @@ yes, it shows the dependency chain.
 - Created a second job that reads that output and prints it
 - Passed the value using outputs: and needs.<job>.outputs.<name>
 
-[Job Outputs YAML file](./outputs.yml)
+[Job Outputs YAML file](./workflows/outputs.yml)
 
 **Screenshots:**
 ![](./images/outputs-workflow-1.jpg)
@@ -59,7 +59,7 @@ Environment variables are scoped to a job or step and cannot be directly shared 
 - Added a job that only runs on push events, not on pull requests
 - Added a step with continue-on-error: true
 
-[Conditionals Workflow YAML file](./conditionals.yml)
+[Conditionals Workflow YAML file](./workflows/conditionals.yml)
 
 ### A step with continue-on-error: true — what does this do?
 continue-on-error: true allows a step to fail without stopping the workflow execution.
@@ -74,7 +74,7 @@ continue-on-error: true allows a step to fail without stopping the workflow exec
  2. Has a lint job and a test job running in parallel.
  3. Has a summary job that runs after both, detects the branch (main or feature) using conditions and prints the commit message.
 
-[Putting It Together Workflow YAML file](./smart-pipeline.yml)
+[Putting It Together Workflow YAML file](./workflows/smart-pipeline.yml)
 
 **Screenshots:**
 ![Pulling It Together Workflow jobs](./images/task5-jobs.jpg)
