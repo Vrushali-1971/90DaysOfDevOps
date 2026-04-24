@@ -1,0 +1,35 @@
+name: Conditionals workflow
+
+on:
+  push:
+    
+jobs:
+  conditions:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Always runs step
+        run: echo "This step always runs"
+      
+      - name: Runs only when branch is main
+        if: github.ref == 'refs/heads/main'
+        run: echo "Deploying from main branch"
+
+      - name: Intentional failure
+        run: exit 1
+        continue-on-error: true
+
+      - name: Runs only when the previous step failed
+        if: failure()
+        run: echo "Previous step failed"
+
+      - name: Runs only on non-main branch
+        if: github.ref != 'refs/heads/main'
+        run: echo "This is a feature branch"
+
+      - name: Runs only on push event
+        if: github.event_name == 'push'
+        run: echo "Triggered by push event"
+         
+

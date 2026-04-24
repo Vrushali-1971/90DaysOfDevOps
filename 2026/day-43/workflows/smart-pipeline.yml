@@ -1,0 +1,34 @@
+name: Pulling it together workflow
+
+on: 
+  push:      
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: lint job
+        run: echo "Running lint"
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test job
+        run: echo "Running test"
+
+  summary:
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - name: Main branch
+        if: github.ref == 'refs/heads/main'
+        run: echo "This is a main branch push"
+
+      - name: Feature branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "This is a feature branch push: ${{ github.ref }}"
+
+      - name: Print commit message
+        run: |
+          echo "Commit message: ${{ github.event.commits[0].message }}"   # shows last commit message
