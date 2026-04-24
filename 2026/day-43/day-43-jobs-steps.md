@@ -17,7 +17,7 @@ yes, it shows the dependency chain.
 
 ![Multi-job workflow dependency chain](./images/multi-job-workflow-1.jpg)
 
-![Multi-job workflow test job](./images/multi-job-workflow-2.jpg)
+![Multi-job workflow test job](./images/multi-job%20workflow-2.jpg)
 
 ## Task 2: Environment Variables
 - Created a env-var YAML workflow.
