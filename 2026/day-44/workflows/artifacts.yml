@@ -1,0 +1,19 @@
+name: Upload Artifacts task
+
+on:
+  workflow_dispatch:
+
+jobs:
+  artifacts:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Generate a file
+        run: echo "This is a test report" > report.txt
+       
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Task_3
+          path: report.txt
+    

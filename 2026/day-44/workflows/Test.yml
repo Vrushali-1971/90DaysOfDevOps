@@ -1,0 +1,45 @@
+name: Run Real Tests in CI
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  test_1:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+     
+      - name: Create a directory logs and log files
+        run: |
+          mkdir logs
+          echo "Authentication is successful" > logs/app.log
+          echo "Process passed " >> logs/app.log
+
+      - name: Make script executable
+        run: chmod +x scripts/log_summary.sh
+
+      - name: Run script
+        run: ./scripts/log_summary.sh logs
+
+  test_2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create a directory logs and logs files
+        run: |
+          mkdir logs
+          echo "This is fine" > logs/app.log
+          echo "All fine" >> logs/app.log 
+          echo "Authentication successful" > logs/app2.log
+          echo "process is successfully running" >> logs/app2.log
+
+      - name: Make script executable
+        run: chmod +x scripts/log_summary.sh
+
+      - name: Run script
+        run: ./scripts/log_summary.sh logs
