@@ -35,7 +35,7 @@ Because:
 [Use Secrets as Environment Variables YAML workflow](./workflows/secrets_env_var.yml)
 
 #### Proof of work:
-![Task-2 Secrets as  Environment Variables YAML workflow on GitHub Actions](./images/task-2)
+![Task-2 Secrets as  Environment Variables YAML workflow on GitHub Actions](./images/task-2.jpg)
 
 ## Task 3: Upload Artifacts
 - Created a step that generates a file test.txt
@@ -81,7 +81,7 @@ Yes:
   4. Intentionally break the script — verify the pipeline goes red
   5. Fix it — verify it goes green again
 
-[Script Used to run real test in CI](./log_summary.sh)
+[log_summary script used to run real test in CI](./log_summary.sh)
 
 - To intentionally break the pipeline I added errors in log files in test_2 job
 ```yaml
