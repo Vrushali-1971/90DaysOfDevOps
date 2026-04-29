@@ -1,0 +1,23 @@
+name: Caller Workflow
+
+on: 
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      app_name: "my-web-app"
+      environment: "production"
+    secrets:
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+
+  build_2:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Read and Print build_version output
+        run: |
+          echo "Build version is: ${{ needs.build.outputs.build_version }}"
