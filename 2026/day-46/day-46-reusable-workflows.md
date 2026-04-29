@@ -97,7 +97,7 @@ jobs:
 
 ### Files
 
-* [setup-and-greet](./actions/setup-and-greet/action.yml)
+* [setup-and-greet](./workflows/action.yml)
 
 * [Test Composite Action file](./workflows/composite-test.yml)
 
