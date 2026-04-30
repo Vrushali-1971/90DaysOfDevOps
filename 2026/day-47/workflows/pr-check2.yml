@@ -1,0 +1,53 @@
+name: PR Validation Workflow
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  file-size-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  
+
+      - name: Check file sizes
+        run: |
+          echo "Checking for large files..."
+          LARGE_FILES=$(find . -type f -size +1M)
+          if [ -n "$LARGE_FILES" ]; then
+            echo "Large files found:"
+            echo "$LARGE_FILES"
+            exit 1
+          else
+            echo "All files are under 1MB"
+          fi
+
+  branch-name-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate branch name
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          echo "Branch name: $BRANCH"
+          if [[ "$BRANCH" == feature/* || "$BRANCH" == fix/* || "$BRANCH" == docs/* ]]; then
+            echo "Valid branch name"
+          else 
+            echo "Invalid branch name"
+            exit 1
+          fi
+
+  pr-body-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check PR description
+        run: |
+          BODY="${{ github.event.pull_request.body }}"
+          if [ -z "$BODY" ]; then
+            echo "PR description is empty"
+          else
+            echo "PR description present"
+          fi

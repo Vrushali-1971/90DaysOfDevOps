@@ -1,0 +1,13 @@
+name: Ignore Docs Changes
+
+on:
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'docs/**'
+
+jobs:
+  skip-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Triggered because non-doc files changed"

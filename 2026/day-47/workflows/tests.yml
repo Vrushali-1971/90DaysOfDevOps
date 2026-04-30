@@ -1,0 +1,15 @@
+name: Run Tests
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print test message
+        run: echo "Running tests..."
+
+      - name: Simulate test success
+        run: echo "Tests passed!"

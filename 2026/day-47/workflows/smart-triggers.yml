@@ -1,0 +1,18 @@
+name: Smart Trigger (Run only on app change)
+
+on:
+  push:
+    branches:
+      - main
+      - release/*
+    paths:
+      - 'src/**'
+      - 'app/**'
+
+jobs:
+  runs-on-app-change:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print message
+        run: echo "App code changed, workflow triggered!"
