@@ -49,7 +49,7 @@ Learn and implement advanced GitHub Actions triggers to build event-driven CI/CD
      - Warns (but doesn't fail) if the PR description is empty
  
 #### Workflow file
-[PR Validation Workflow](./workflows/pr-checks2.yml)
+[PR Validation Workflow](./workflows/pr-check2.yml)
 
 **Verify:** Open a PR from a badly named branch — does the check fail?
 Yes, when opened a PR from a random branch the check failed.
@@ -78,7 +78,7 @@ Created `.github/workflows/scheduled-tasks.yml`:
 [Scheduled Workflow file](./workflows/scheduled-tasks.yml)
 
 #### Screenshots:
-[Scheduled Workflow triggered manually](./images/task-3.jpg)
+![Scheduled Workflow triggered manually](./images/task-3.jpg)
 
 ---
 
