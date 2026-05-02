@@ -1,0 +1,80 @@
+name: Reusable Workflow — Docker Build & Push
+
+on:
+  workflow_call:
+    inputs:
+      image_name: 
+         description: 'Name of the image'
+         required: true
+         type: string  
+      tag:
+        description: 'Image tag'
+        required: true
+        type: string
+    secrets:
+        docker_username:
+          required: true
+        docker_token:
+          required: true
+
+    outputs:
+      image_url:
+        description: "Docker image URL"
+        value: ${{ jobs['docker-build-push'].outputs.image_url }}
+
+
+jobs:
+  docker-build-push:
+    runs-on: ubuntu-latest
+
+    outputs: 
+      image_url: ${{ steps.set-image.outputs.image_url }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.docker_username }}
+          password: ${{ secrets.docker_token }}
+
+      - name: Debug Inputs
+        run: |
+          echo "IMAGE_NAME = ${{ inputs.image_name }}"
+          echo "TAG = ${{ inputs.tag }}"
+                      
+      - name: Build and push the image 
+        uses: docker/build-push-action@v5
+        with:
+          context: ./capstone-project
+          push: true
+          tags: |
+            ${{ inputs.image_name }}:latest
+            ${{ inputs.image_name }}:${{ inputs.tag }}
+
+      - name: Set Image URL
+        id: set-image
+        run: |
+          IMAGE="${{ inputs.image_name }}"
+          TAG="${{ inputs.tag }}"
+          VALUE="$IMAGE:$TAG"
+          echo "image_url=$VALUE" >> "$GITHUB_OUTPUT"
+          echo "DEBUG OUTPUT SET: $VALUE"
+
+      - name: Run Trivy vulnerability scan
+        uses: aquasecurity/trivy-action@0.35.0
+        with:
+          image-ref: ${{ inputs.image_name }}:${{ inputs.tag }}
+          format: table
+          output: trivy-report.txt
+          severity: CRITICAL
+          exit-code: 0
+
+      - name: Upload Trivy scan report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-scan-report
+          path: trivy-report.txt
