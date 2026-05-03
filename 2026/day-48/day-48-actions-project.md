@@ -129,34 +129,31 @@ Created `.github/workflows/health-check.yml`:
 ```
 PR Workflow (CI):
 PR Opened / Updated
-        ↓
-Build & Test (Reusable Workflow)
-        ↓
+      ↓
+Build & Test
+      ↓
 PR Checks Pass
 
 Main Workflow (CD):
 PR Merged → Push to main
-        ↓
+      ↓
 Build & Test
-        ↓
-Docker Build & Push (latest + sha)
-        ↓
+      ↓
+Docker Build & Push
+      ↓
 Security Scan (Trivy)
-        ↓
+      ↓
 Deploy to Production
 
 Monitoring:
-Every 12 hours (Scheduled Workflow)
-        ↓
-Pull latest Docker image
-        ↓
-Run container
-        ↓
-Health Check (curl)
-        ↓
-Report status
-
-   ```
+Scheduled (Every 12 hours)
+      ↓
+Run Container
+      ↓
+Health Check
+      ↓
+Generate Report
+```
 
 #### Screenshot
 ![README and Workflow success badges](./images/workflow-success-badges.jpg)
@@ -176,8 +173,7 @@ Report status
 Added a **DevSecOps** step to my main pipeline:
 1. Added `aquasecurity/trivy-action` after the Docker build step to scan my image for vulnerabilities
 2. Uploaded the scan report as an artifact
-
-[Main CI/CD Pipeline Workflow with trivy scan](./workflows/main-pipeline.yml)
+3. Configured `exit-code: 0` to allow pipeline execution while still reporting vulnerabilities
 
 ### Why exit-code: 0 was used
 While configuring Trivy, I initially used `exit-code: 1` to fail the pipeline on detecting CRITICAL vulnerabilities.  
@@ -193,6 +189,7 @@ In a real production environment, I would:
 - Update base images and dependencies
 - Maintain an allowlist for acceptable risks
 
+[Main CI/CD Pipeline Workflow with trivy scan](./workflows/main-pipeline.yml)
 
 #### Screenshots:
 ![Main-pipeline with trivy scan](./images/main-pipeline-trivy-scan.jpg)
@@ -217,6 +214,7 @@ In a real production environment, I would:
 - Learned importance of:
   - version pinning in GitHub Actions
   - proper workflow design and modularity
+  - Learned how reusable workflows improve modularity and reduce duplication
 
 
 ---
