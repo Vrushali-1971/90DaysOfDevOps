@@ -18,8 +18,6 @@ The name "Kubernetes" comes from Greek, meaning "helmsman" or "pilot", which rep
 ---
 
 ## Kubernetes Architecture
-![Handrawn Kubernetes Architecuture](./images/architecture.jpg)
-
 ### Control Plane (Master Node)
 - API Server - Entry point of cluster 
 - etcd - Stores cluster data
