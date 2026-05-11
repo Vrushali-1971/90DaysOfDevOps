@@ -277,8 +277,9 @@ Deleted all pods, ConfigMaps, and Secrets created.
 - When to use which? Use ConfigMaps for anything you wouldn't mind someone seeing in a GitHub repo. Use Secrets for anything that could compromise your security.
 
 2. The difference between environment variables and volume mounts
+
 | Feature | Environment Variables | Volume Mounts |
-| :--- | :--- | :--- |
+|---------|-----------------------|---------------|
 | **Best For** | Small key-value pairs (Flags, Ports) | Full config files (nginx.conf, etc.) |
 | **Update Behavior** | **Static:** Requires a Pod restart to see changes. | **Dynamic:** Updates automatically within 30-60s. |
 | **Visibility** | Seen via `env` command inside the container. | Seen as actual files on the disk. |
