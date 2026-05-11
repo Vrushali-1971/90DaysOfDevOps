@@ -63,7 +63,7 @@ server {
 
 ### Screenshot:
 
-![Task-2 ConfigMap From File](./images/config-from-file.png)
+![Task-2 ConfigMap From File](./images/configMap-from-file.png)
 ---
 
 ### Task 3: Use ConfigMaps in a Pod
@@ -165,7 +165,7 @@ Note - **base64 is encoding, not encryption.** Anyone with cluster access can de
 
 ### Screenshot:
 
-![Task-4](./images/secret.png)
+![Task-4](./images/secret.png.png)
 
 ---
 
