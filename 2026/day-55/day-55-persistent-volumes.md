@@ -147,7 +147,7 @@ spec:
 By explicitly defining the storageClassName as manual (or any matching string), I bypassed the dynamic provisioning system. This forced Kubernetes to perform Static Provisioning, where it looks for an existing Available PV that matches the class name, access mode, and capacity. Once the names matched, the status immediately transitioned to Bound.
 
 ### Screenshot:
-![Task-3 PersistentVolumeClaim](./images1./task-3-pvc.png)
+![Task-3 PersistentVolumeClaim](./images1/task-3-pvc.png)
 
 ---
 
