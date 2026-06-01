@@ -155,7 +155,7 @@ Here is exactly how it works:
 
 ### Screenshots:
 
-![Task-4 Add an EC2 Instance](./images/Creating-EC2-instance-error.jpg)
+![Task-4 Add an EC2 Instance](./images/Creating-EC2-instance%20error.jpg)
 
 ![](./images/task-4-EC2-instance.jpg)
 
