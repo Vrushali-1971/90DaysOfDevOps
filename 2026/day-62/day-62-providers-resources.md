@@ -49,7 +49,7 @@ When configuring the `required_providers` block, version operators define the ab
 
 ### Screenshot:
 
-![Task 1 Initialization Proof](task-1.jpg)
+![Task 1 Initialization Proof](./images/task-1.jpg)
 
 ---
 
@@ -68,9 +68,9 @@ Step-2. Run `terraform plan` -- you should see 5 resources to create.
 
 ### Screenshots:
 
-![Task 2 Internal Apply Validation](task-2-apply-2.jpg)
+![Task 2 Internal Apply Validation](./images/task-2-apply-2.jpg)
 
-![Task 2 AWS Console Network Map Visualizer](resource-map.jpg)
+![Task 2 AWS Console Network Map Visualizer](./images/resource-map.jpg)
 
 ---
 
@@ -129,9 +129,9 @@ Step-2. Apply and verify -- your EC2 instance should have a public IP and be rea
 
 ### Screenshots:
 
-![Task 4 Security Firewall Configurations Plan](task-4-plan-3.jpg)
+![Task 4 Security Firewall Configurations Plan](./images/task-4-plan-3.jpg)
 
-![Task 4 Public Routing Gateway Connectivity Success](instace-connect.jpg)
+![Task 4 Public Routing Gateway Connectivity Success](./images/instace-connect.jpg)
 
 ---
 
@@ -168,11 +168,11 @@ Here are two real-world examples:
 
 ### Screenshots:
 
-![Task 5 S3 Bucket Allocation Plan](task-5-plan.jpg)
+![Task 5 S3 Bucket Allocation Plan](./images/task-5-plan.jpg)
 
-![Task 5 Compiled Structural Graph Visualization Tree](graph.jpg)
+![Task 5 Compiled Structural Graph Visualization Tree](./images/graph.jpg)
 
-![Task 5 AWS Console S3 Bucket Verification](s3-bucket.jpg)
+![Task 5 AWS Console S3 Bucket Verification](./images/s3-bucket.jpg)
 
 ---
 
@@ -323,13 +323,13 @@ resource "aws_s3_bucket" "app_logs" {
 
 ### Screenshots:
 
-![Task 6 Lifecycle Modification Replacement Plan](task-6.jpg)
+![Task 6 Lifecycle Modification Replacement Plan](./images/task-6.jpg)
 
-![Task 6 Zero-Downtime Verification Progress Transcript](task-6-apply.jpg)
+![Task 6 Zero-Downtime Verification Progress Transcript](./images/task-6-apply.jpg)
 
-![Task 6 New Instance Live Health Verification](new-instance.jpg)
+![Task 6 New Instance Live Health Verification](./images/new-instance.jpg)
 
-![Task 6 Post-Challenge Environment Teardown](terraform-destroy.jpg)
+![Task 6 Post-Challenge Environment Teardown](./images/terraform-destroy.jpg)
 
 ---
 
