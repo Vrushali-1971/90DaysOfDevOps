@@ -318,7 +318,7 @@ Step-4. Apply and check the tags in the AWS console -- every resource should hav
 
 ![Task 5 Structural Tag Modification Plan](./images/task-5-1.jpg)
 
-![Task 5 AWS Console Live Named Instance Verification](./images/task-5-instance-name-changed.jpg)
+![Task 5 AWS Console Live Named Instance Verification](./images/task-5-instance-name-changed.jfif)
 
 ---
 
