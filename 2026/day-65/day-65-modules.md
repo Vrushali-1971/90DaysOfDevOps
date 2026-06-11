@@ -451,6 +451,9 @@ terraform init -upgrade
 terraform state list
 ```
 
+#### Output Proof Mapping:
+
+![resources](./images/resources.jpg)
 
 The clear module.<name>.* prefix structure prevents resource configuration naming crashes inside remote state tracking storage.
 
