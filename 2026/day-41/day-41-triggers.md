@@ -35,9 +35,10 @@ Answer: `0 9 * * 1`
 [Manual Trigger yaml file](./workflows/manual.yml)
 
 Question: Can you trigger it manually and see your input printed? - **Yes**
+
 ![Manual "Run workflow" with environment selection](./images/day-41-manual-trigger-workflow-1.jpg)
 
-![Manual-trigger-workflow](./images/day-41-manual-trigger-workflow.jpg)
+![Manual-trigger-workflow](./images/day-41-maual-trigger-workflow.jpg)
 
 
 ### Task 4: Matrix Builds
@@ -102,7 +103,7 @@ jobs:
 ```
 
 
-![Matrix Build Showing 3 Paralled jobs in the Actions tab](./images/matrix-workflow.jpg)
+![Matrix Build Showing 3 Paralled jobs in the Actions tab](./images/matrix%20workflow.jpg)
 
 ![Matrix Build showing 6 parallel jobs in the Actions tab](./images/day-41-extended-matrix-workflow.jpg)
 
