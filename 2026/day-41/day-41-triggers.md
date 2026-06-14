@@ -111,7 +111,7 @@ jobs:
 ### Task 5: Exclude & Fail-Fast
 Updated matrix YAML configuration to exclude python 3.10 version on windows and set `fail-fast: false` to observe how all jobs continue execution even when one job fails.
 
-[Matrix Build yaml file](.workflows/matrix.yml)
+[Matrix Build yaml file](./workflows/matrix.yml)
 
 ![Matrix Build fail-fast output](./images/day-41-matrix-forced-failure.jpg)
 
