@@ -1,0 +1,18 @@
+# Local .terraform directories (Contains downloaded plugins and modules - several MBs)
+**/.terraform/*
+
+# .tfstate files (Contains your active AWS infrastructure map and secrets)
+*.tfstate
+*.tfstate.*
+
+# Crash logs and internal lock files
+*.clog
+.terraform.lock.hcl
+
+# Ignore local variable overrides (if you ever put passwords or secret tokens here)
+*.tfvars
+*.tfvars.json
+
+# OS specific hidden files
+.DS_Store
+Thumbs.db
