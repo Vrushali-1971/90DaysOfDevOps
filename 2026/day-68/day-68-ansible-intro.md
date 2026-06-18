@@ -70,10 +70,13 @@ ssh -i ~/your-key.pem ec2-user@<public-ip-2>
 ssh -i ~/your-key.pem ec2-user@<public-ip-3>
 ```
 ### Configuration files for ec2 instance
-[providers.tf file](./terraform/providers.tf)
-[variables.tf file](./terraform/variables.tf)
-[ec2.tf file](./terraform/ec2.tf)
-[outputs.tf file](./terraform/outputs.tf)
+- [providers.tf file](./terraform/providers.tf)
+
+- [variables.tf file](./terraform/variables.tf)
+
+- [ec2.tf file](./terraform/ec2.tf)
+
+- [outputs.tf file](./terraform/outputs.tf)
 
 ### Screenshots
 
@@ -201,6 +204,10 @@ ansible all -i inventory.ini -m command -a "cat /tmp/hello.txt"
 ![Ad-hoc commands](./images/task-5-1.jpg)
 
 ![Ad-hoc commands](./images/task-5-2.jpg)
+
+![](./images/task-5_file_copy_details.jpg)
+
+![](./images/task5_file_copy_verification.jpg)
 
 
 ---
