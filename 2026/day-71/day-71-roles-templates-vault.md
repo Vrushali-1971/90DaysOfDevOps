@@ -198,8 +198,8 @@ max_connections: 512
 
 Create the `vhost.conf.j2` and `nginx.conf.j2` templates yourself based on what you learned in Task 1.
 
-- [nginx.conf.j2 file](./ansible-practice/templates/nginx.conf.j2)
-- [vhost.conf.j2 file](./ansible-practice/templates/vhost.conf.j2)
+- [nginx.conf.j2 file](./ansible-practice/roles/webserver/templates/nginx.conf.j2)
+- [vhost.conf.j2 file](./ansible-practice/roles/webserver/templates/vhost.conf.j2)
 
 Now call the role from a playbook `site.yml`:
 ```yaml
@@ -268,7 +268,7 @@ roles:
   - name: geerlingguy.ntp
 ```
 
-![Task-4](./images/task-4.1.jpg)
+![Task-4](./images/task-4-1.jpg)
 
 Install all at once:
 ```bash
@@ -423,7 +423,7 @@ ansible-playbook site.yml
 
 ### Screenshots
 
-![](./images/db-verification.jpg)
+![](./images/last-db-verification.jpg)
 
 ---
 ### When to Use Ad-hoc Commands vs. Playbooks vs. Roles
