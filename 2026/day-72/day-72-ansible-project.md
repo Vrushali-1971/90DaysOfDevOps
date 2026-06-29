@@ -49,7 +49,7 @@ ansible-galaxy init roles/docker
 ansible-galaxy init roles/nginx
 ```
 #### Directory Structure
-![Directory Structure](./directory-file-structure.jpg)
+![Directory Structure](./images/directory-file-structure.jpg)
 
 Set up your `ansible.cfg` and `inventory.ini` using what you built on Day 68.
 - [ansible.cfg file](./ansible-docker-project/ansible.cfg)
@@ -342,8 +342,8 @@ ansible-playbook site.yml --check --diff
 ansible-playbook site.yml
 ```
 #### Full Deployment Baseline Execution
-![Full Deployment Pass 1](./full-deploy-site.yml-1.jpg)
-![Full Deployment Pass 2](./full-deploy-site.yml-2.jpg)
+![Full Deployment Pass 1](./images/full-deploy-site.yml-1.jpg)
+![Full Deployment Pass 2](./images/full-deploy-site.yml-2.jpg)
 
 Use tags for selective execution:
 ```bash
@@ -363,7 +363,7 @@ ansible-playbook site.yml --skip-tags common
 3. Check `docker ps` on the server -- is the container running with the correct port mapping?
 
 #### AWS Firewall & Port Routing Security Check
-![AWS Firewall & Proxy Security Verification](./verification.jpg)
+![AWS Firewall & Proxy Security Verification](./images/verification.jpg)
 
 ---
 
@@ -374,8 +374,8 @@ ansible-playbook site.yml \
   -e "docker_app_image=httpd docker_app_tag=latest docker_app_name=apache-app docker_app_port=8080 docker_container_port=80"
 ```
 #### Task 7 Dynamic Override Logs
-![Task 7 Extra Vars execution](./task-7.jpg)
-![Task 7 Task Changes](./task-7-1.jpg)
+![Task 7 Extra Vars execution](./images/task-7.jpg)
+![Task 7 Task Changes](./images/task-7.1.jpg)
 
 ### The Difficulty:
 After running the command to deploy Apache, executing `curl` on Port 80 stubbornly kept returning the old `terraweek-app` landing page instead of Apache's standard `"It works!"` message. 
