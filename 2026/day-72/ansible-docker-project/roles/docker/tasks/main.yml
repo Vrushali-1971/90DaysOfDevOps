@@ -1,0 +1,102 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/docker
+- name: Install Docker dependencies
+  apt:
+    name: 
+      - apt-transport-https
+      - ca-certificates
+      - acl
+      - curl
+      - gnupg
+      - lsb-release
+      - python3-pip
+    state: present
+    update_cache: yes
+  tags: docker
+
+- name: Add Docker Official GPG Key and Repository using DEB822 format
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: deb
+    uris: https://download.docker.com/linux/ubuntu
+    suites: "{{ ansible_facts['distribution_release'] }}"
+    components: stable
+    architectures: amd64
+    signed_by: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  tags: docker
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install Docker and Docker Compose
+  package:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: true
+  tags: docker
+
+- name: Start and enable the Docker service
+  service:
+    name: docker
+    state: started
+    enabled: true
+  notify: Restart Docker
+  tags: docker
+
+- name: Add deploy user to docker group
+  user:
+    name: deploy
+    groups: docker
+    append: true
+  tags: docker
+
+- name: Log in to Docker Hub
+  community.docker.docker_login:
+    username: "{{ vault_docker_username }}"
+    password: "{{ vault_docker_password }}"
+  become_user: deploy
+  when: vault_docker_username is defined
+  tags: docker
+
+- name: Pull application image
+  community.docker.docker_image:
+    name: "{{ docker_app_image }}"
+    tag: "{{ docker_app_tag }}"
+    source: pull
+  tags: docker
+
+- name: Remove any container using this port
+  shell: |
+    docker ps -q --filter "publish={{ docker_app_port }}" | xargs -r docker rm -f
+  ignore_errors: true
+  tags: docker
+
+- name: Run application container
+  community.docker.docker_container:
+    name: "{{ docker_app_name }}"
+    image: "{{ docker_app_image }}:{{ docker_app_tag }}"
+    state: started
+    restart_policy: always
+    recreate: yes
+    ports:
+      - "{{ docker_app_port }}:{{ docker_container_port }}"
+  tags: docker
+
+- name: Wait for container to be healthy
+  uri:
+    url: "http://localhost:{{ docker_app_port }}"
+    status_code: 200
+  retries: 5
+  delay: 3
+  register: health_check
+  until: health_check.status == 200
+  tags: docker
+
