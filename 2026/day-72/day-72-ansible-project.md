@@ -48,6 +48,8 @@ ansible-galaxy init roles/common
 ansible-galaxy init roles/docker
 ansible-galaxy init roles/nginx
 ```
+#### Directory Structure
+![Directory Structure](./directory-file-structure.jpg)
 
 Set up your `ansible.cfg` and `inventory.ini` using what you built on Day 68.
 - [ansible.cfg file](./ansible-docker-project/ansible.cfg)
@@ -259,6 +261,7 @@ server {
 {% endif %}
 }
 ```
+- [nginx.conf.j2 file](./ansible-docker-project/roles/nginx/templates/nginx.conf.j2)
 
 **`roles/nginx/handlers/main.yml`:**
 ```yaml
@@ -338,6 +341,9 @@ ansible-playbook site.yml --check --diff
 # Full deploy
 ansible-playbook site.yml
 ```
+#### Full Deployment Baseline Execution
+![Full Deployment Pass 1](./full-deploy-site.yml-1.jpg)
+![Full Deployment Pass 2](./full-deploy-site.yml-2.jpg)
 
 Use tags for selective execution:
 ```bash
@@ -356,15 +362,34 @@ ansible-playbook site.yml --skip-tags common
 2. Curl the server on port 80 -- does Nginx reverse proxy the request to the container?
 3. Check `docker ps` on the server -- is the container running with the correct port mapping?
 
+#### AWS Firewall & Port Routing Security Check
+![AWS Firewall & Proxy Security Verification](./verification.jpg)
+
 ---
 
 ### Task 7: Bonus -- Deploy a Different App and Re-Run
 Change the Docker image to something else. Update `group_vars/all.yml` or pass extra vars:
-
 ```bash
-ansible-playbook site.yml --tags docker \
-  -e "docker_app_image=httpd docker_app_tag=latest docker_app_name=apache-app"
+ansible-playbook site.yml \
+  -e "docker_app_image=httpd docker_app_tag=latest docker_app_name=apache-app docker_app_port=8080 docker_container_port=80"
 ```
+#### Task 7 Dynamic Override Logs
+![Task 7 Extra Vars execution](./task-7.jpg)
+![Task 7 Task Changes](./task-7-1.jpg)
+
+### The Difficulty:
+After running the command to deploy Apache, executing `curl` on Port 80 stubbornly kept returning the old `terraweek-app` landing page instead of Apache's standard `"It works!"` message. 
+
+### The Root Cause:
+The playbook ran successfully and **did** deploy the Apache container on port 8080 behind the scenes. However, because of the Nginx configuration deployed on Day 71, Nginx was routing external traffic based on static host configuration structures. It didn't dynamically route public traffic to the new container's layout without a configuration update. 
+
+Additionally, running a plain `ansible-playbook site.yml` command immediately afterward triggered Ansible's **idempotency** feature—since the permanent default file configuration specified `terraweek-app`, Ansible automatically deleted the manual Apache container and restored the original setup to match the source code repository.
+
+### The Solution:
+1. The deployment was verified by bypassing the public Nginx proxy completely and checking the internal Docker engine engine states directly using an Ansible ad-hoc command: `ansible web -m ansible.builtin.command -a "sudo docker ps"`. This proved the image running on Port 8080 was indeed `httpd:latest` named `apache-app`.
+2. An internal loopback check directly on the web server container interface (`curl http://127.0.0.1:8080`) successfully returned the true Apache response: `<h1>It works!</h1>`.
+
+---
 
 The old container should be replaced with the new one. Nginx still proxies traffic -- no config change needed.
 
@@ -376,8 +401,13 @@ ansible-playbook site.yml
 The output should show mostly `ok` with zero or minimal `changed`. This proves your entire setup is **idempotent**.
 
 **Reflect and document:**
-1. How many total tasks ran?
-2. Map each Ansible concept to the day you learned it:
+
+### 1. 1. How many total tasks ran?
+* **Total Tasks Executed:** 27 tasks ran successfully on the target production node (`web-server`), as verified by the final `PLAY RECAP` metrics (`ok=27 changed=14`).
+
+---
+
+### 2. Map each Ansible concept to the day you learned it:
 
 | Day | Concept Used |
 |-----|-------------|
@@ -387,8 +417,24 @@ The output should show mostly `ok` with zero or minimal `changed`. This proves y
 | 71 | Roles, templates, Galaxy, Vault |
 | 72 | Everything combined in one project |
 
-3. What would you add for production? (SSL with certbot, monitoring, log rotation, multi-container Compose)
-4. Clean up your EC2 instances when done. If you used Terraform: `terraform destroy`. If manual: terminate from the console.
 
 ---
 
+### 3. What would you add for production? (SSL with certbot, monitoring, log rotation, multi-container Compose)
+If shifting this architecture to a live enterprise production landscape, I would implement the following four production-grade upgrades:
+
+1. **SSL/TLS Encryption via Certbot:** Integrate an automated Let's Encrypt Certbot task within the Nginx role to automatically provision and renew SSL certificates, upgrading public traffic from insecure HTTP (Port 80) to secure HTTPS (Port 443).
+2. **Infrastructure Monitoring & Observability:** Deploy light monitoring agents (like Prometheus Node Exporter) alongside the application container to track CPU, memory usage, and container health metrics in real-time.
+3. **Automated Log Rotation:** Configure native Linux `logrotate` policies for Nginx and Docker daemon logs (`/var/log/nginx/*.log`) to ensure active server storage space isn't exhausted by historical connection records.
+4. **Multi-Container Docker Compose Execution:** Transition the single-container Docker runtime tasks into structured, declarative Multi-Container Compose models to safely isolate application backends, databases, and network bridges.
+---
+
+### 4. How I Used Tags for Selective Deployment
+- I used Ansible tags like common, docker, and nginx to organize tasks into logical groups.
+- Using tags made deployments faster by avoiding unnecessary task execution during testing or updates.
+
+### 5. How Vault Protected Docker Hub Credentials
+- I used Ansible Vault to encrypt sensitive Docker Hub credentials such as the username and access token.
+- The encrypted secrets were stored securely instead of being hardcoded in the playbook or Git repository.
+- During playbook execution, Ansible decrypted the credentials at runtime and used them for Docker login without exposing them in plain text.
+---
