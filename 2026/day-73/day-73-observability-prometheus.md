@@ -224,7 +224,7 @@ topk(5, prometheus_http_requests_total)
 ```
 
 **Try this exercise:** Write a PromQL query that shows the per-second rate of non-200 HTTP requests to Prometheus over the last 5 minutes. (Hint: use `rate()` with a label filter on `code!="200"`)
-- PromQL query - rate(prometheus_http_requests_total{codel="200"}[5m])
+- PromQL query - rate(prometheus_http_requests_total{code!="200"}[5m])
 
 ![Prometheus exercise](./images/exercise.jpg)
 
