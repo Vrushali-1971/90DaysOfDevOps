@@ -59,6 +59,7 @@ Verify Node Exporter is healthy:
 ```bash
 curl http://localhost:9100/metrics | head -20
 ```
+![task-1](./images/task-1.png)
 
 Check Prometheus Targets page -- `node-exporter` should show as `UP`.
 
@@ -118,6 +119,7 @@ docker compose up -d
 ```
 
 Open `http://localhost:8080` to see the cAdvisor web UI. Click on Docker Containers to see per-container stats.
+![task-2](./images/cadvisor.png)
 
 Run these queries in Prometheus:
 ```promql
@@ -236,6 +238,7 @@ container_memory_usage_bytes{name!=""} / 1024 / 1024
 - Title: "Disk Usage %"
 
 Save the dashboard as "DevOps Observability Overview".
+![Task-4](./images/task-4.jpg)
 
 ---
 
@@ -283,6 +286,7 @@ docker compose up -d grafana
 ```
 
 Check Connections > Data Sources -- Prometheus should already be there without any manual setup.
+![Task-5](./images/task-5.png)
 
 ### **Document:** Why is provisioning datasources via YAML better than configuring them manually through the UI?
 - Ensures the datasource is **created automatically** every time Grafana starts.
@@ -300,6 +304,7 @@ The Grafana community maintains thousands of pre-built dashboards. Import one fo
 4. Click Import
 
 Explore the imported dashboard. It has dozens of panels covering CPU, memory, disk, network, and more -- all built on the same Node Exporter metrics you queried manually.
+![Import Dashboard](./images/task-6.png)
 
 **Try another one:** Import dashboard ID **193** (Docker monitoring via cAdvisor). Select Prometheus as the datasource and explore container-level stats.
 
@@ -314,5 +319,45 @@ Verify all are running:
 ```bash
 docker compose ps
 ```
+![Running Containers](./images/containers.jpg)
+
+![prometheus-targets](./images/targets.jpg)
 
 ---
+
+## Troubleshooting
+
+### Issue 1: `name` label not found in cAdvisor metrics
+
+**Issue:** The query:
+
+```promql
+rate(container_cpu_usage_seconds_total{name!=""}[5m])
+```
+
+returned **No data**.
+
+**Cause:** My cAdvisor version did not expose the `name` label. It exposed container metrics using the `id` label instead.
+
+**Resolution:** I removed the `name` filter and used:
+
+```promql
+rate(container_cpu_usage_seconds_total[5m]) * 100
+```
+
+which successfully displayed the container CPU metrics.
+
+---
+
+### Issue 2: Imported Dashboard ID 193 showed "No data"
+
+**Issue:** All panels in the imported cAdvisor dashboard displayed **No data**.
+
+**Cause:** The dashboard filters metrics using the `image` label, but my cAdvisor version exposes Docker containers using the `id` label instead.
+
+**Verification:**
+- `container_cpu_user_seconds_total` → Returned data
+- `container_cpu_user_seconds_total{image!=""}` → No data
+- `container_cpu_user_seconds_total{id=~".*docker.*"}` → Returned data
+
+**Conclusion:** This was a compatibility issue between the community dashboard and the newer cAdvisor metric labels, not a problem with the Prometheus or cAdvisor setup.
