@@ -59,7 +59,9 @@ Verify Node Exporter is healthy:
 ```bash
 curl http://localhost:9100/metrics | head -20
 ```
+
 ![task-1](./images/task-1.png)
+
 
 Check Prometheus Targets page -- `node-exporter` should show as `UP`.
 
@@ -119,6 +121,7 @@ docker compose up -d
 ```
 
 Open `http://localhost:8080` to see the cAdvisor web UI. Click on Docker Containers to see per-container stats.
+
 ![task-2](./images/cadvisor.png)
 
 Run these queries in Prometheus:
@@ -135,6 +138,9 @@ rate(container_network_receive_bytes_total{name!=""}[5m])
 # Which container is using the most memory?
 topk(3, container_memory_usage_bytes{name!=""})
 ```
+
+![task-2-query](./images/task-2.png)
+
 
 The `{name!=""}` filter removes aggregated/system-level entries and shows only named containers.
 
@@ -238,7 +244,8 @@ container_memory_usage_bytes{name!=""} / 1024 / 1024
 - Title: "Disk Usage %"
 
 Save the dashboard as "DevOps Observability Overview".
-![Task-4](./images/task-4.jpg)
+
+![Task-4](./images/task-4.png)
 
 ---
 
@@ -286,6 +293,7 @@ docker compose up -d grafana
 ```
 
 Check Connections > Data Sources -- Prometheus should already be there without any manual setup.
+
 ![Task-5](./images/task-5.png)
 
 ### **Document:** Why is provisioning datasources via YAML better than configuring them manually through the UI?
@@ -304,6 +312,7 @@ The Grafana community maintains thousands of pre-built dashboards. Import one fo
 4. Click Import
 
 Explore the imported dashboard. It has dozens of panels covering CPU, memory, disk, network, and more -- all built on the same Node Exporter metrics you queried manually.
+
 ![Import Dashboard](./images/task-6.png)
 
 **Try another one:** Import dashboard ID **193** (Docker monitoring via cAdvisor). Select Prometheus as the datasource and explore container-level stats.
@@ -319,9 +328,9 @@ Verify all are running:
 ```bash
 docker compose ps
 ```
-![Running Containers](./images/containers.jpg)
+![Running Containers](./images/containers.png)
 
-![prometheus-targets](./images/targets.jpg)
+![prometheus-targets](./images/targets.png)
 
 ---
 
