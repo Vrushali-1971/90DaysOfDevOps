@@ -1,0 +1,44 @@
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    # ENV VARIABLES: These will be pulled from your .env file
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - backend_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    image: vrushalicloud/todo-flask-app:v1
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    networks:
+      - backend_network
+    depends_on:
+      db:
+        condition: service_healthy
+
+# Defining the custom network
+networks:
+  backend_network:
+    driver: bridge
+
+# Defining the persistent volume
+volumes:
+  db_data:
+
