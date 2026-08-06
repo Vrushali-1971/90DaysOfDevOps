@@ -40,3 +40,8 @@ crash.log
 .pytest_cache/
 coverage/
 CLAUDE.md
+
+# Ansible 
+*.retry
+.vault_pass
+**/roles/geerlingguy.docker/
