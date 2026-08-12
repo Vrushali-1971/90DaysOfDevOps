@@ -111,7 +111,8 @@ helm install bankapp-mysql bitnami/mysql \
   --set primary.resources.limits.cpu=500m \
   --set primary.persistence.size=5Gi
 ```
-![Deploy mysql](./images/deploy.png)
+
+![Deploy mysql](./images/deploy.jpg)
 
 Compare this single command to the raw manifest approach which needs `mysql-deployment.yml` + `secrets.yml` + `pvc.yml` + `pv.yml` + `service.yml`. Helm handles all of it.
 
@@ -122,7 +123,7 @@ kubectl get all -l app.kubernetes.io/instance=bankapp-mysql
 kubectl get pvc -l app.kubernetes.io/instance=bankapp-mysql
 kubectl get secret -l app.kubernetes.io/instance=bankapp-mysql
 ```
-![check what was created](./images/pod-running.png)
+![check what was created](./images/pod-running.jpg)
 
 Troubleshooting – ImagePullBackOff: The MySQL Pod entered ImagePullBackOff because Kubernetes could not pull the bitnami/mysql:9.4.0-debian-12-r1 image. Since the required image was unavailable from the regular Bitnami repository, I used the corresponding bitnamilegacy/mysql image and updated the Helm configuration. After recreating the Pod, it successfully started and reached Running status.
 
@@ -132,7 +133,8 @@ kubectl exec -it bankapp-mysql-0 -- mysql -uroot -pTest@123 -e "SHOW DATABASES;"
 ```
 
 You should see `bankappdb` in the output.
-![Verify](./images/show-databases.png)
+
+![Verify](./images/show-databases.jpg)
 
 ---
 
