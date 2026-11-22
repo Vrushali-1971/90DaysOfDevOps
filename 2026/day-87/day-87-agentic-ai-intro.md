@@ -68,7 +68,7 @@ brew install ollama
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-![Install-ollama](./images/install-ollama.jpg)
+![Install-ollama](./images/Install-ollama.jpg)
 
 Start Ollama and pull the model you are using:
 ```bash
