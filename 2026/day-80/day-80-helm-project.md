@@ -1,0 +1,538 @@
+# Day 80 -- Helm Project: Multi-Environment Deployment and CI/CD
+
+## Task
+Two days of Helm -- chart basics and a custom chart for the AI-BankApp. I brought it all together. I created environment-specific values for dev, staging, and production, added Helm hooks, package the chart, and integrated Helm into the AI-BankApp's CI/CD pipeline.
+
+Reference: https://github.com/TrainWithShubham/AI-BankApp-DevOps (branch: `feat/gitops`)
+
+---
+
+## Challenge Tasks
+
+### Task 1: Create Environment-Specific Values
+One chart, three environments. The AI-BankApp runs differently in dev vs production.
+
+Create `bankapp/values-dev.yaml`:
+```yaml
+bankapp:
+  replicaCount: 1
+  image:
+    repository: trainwithshubham/ai-bankapp-eks
+    tag: "latest"
+    pullPolicy: Always
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "250m"
+  autoscaling:
+    enabled: false
+
+mysql:
+  enabled: true
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "250m"
+  persistence:
+    size: 2Gi
+    storageClass: standard
+
+ollama:
+  enabled: true
+  model: tinyllama
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "1.5Gi"
+      cpu: "1000m"
+  persistence:
+    size: 5Gi
+    storageClass: standard
+
+storageClass:
+  create: false
+```
+
+Create `bankapp/values-staging.yaml`:
+```yaml
+bankapp:
+  replicaCount: 2
+  image:
+    repository: trainwithshubham/ai-bankapp-eks
+    tag: "v1.2.0"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 3
+    targetCPUUtilization: 75
+
+mysql:
+  enabled: true
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  persistence:
+    size: 5Gi
+    storageClass: gp3
+
+ollama:
+  enabled: true
+  model: tinyllama
+  persistence:
+    size: 10Gi
+    storageClass: gp3
+
+secrets:
+  mysqlRootPassword: StagingPass@456
+  mysqlUser: root
+  mysqlPassword: StagingPass@456
+
+storageClass:
+  create: true
+```
+
+Create `bankapp/values-prod.yaml`:
+```yaml
+bankapp:
+  replicaCount: 4
+  image:
+    repository: trainwithshubham/ai-bankapp-eks
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "250m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilization: 70
+
+mysql:
+  enabled: true
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+    limits:
+      memory: "1Gi"
+      cpu: "1000m"
+  persistence:
+    size: 2Gi
+    storageClass: standard
+
+ollama:
+  enabled: true
+  model: tinyllama
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "900m"
+    limits:
+      memory: "2.5Gi"
+      cpu: "1500m"
+  persistence:
+    size: 5Gi
+    storageClass: standard
+
+secrets:
+  mysqlRootPassword: Test@123
+  mysqlUser: bankapp
+  mysqlPassword: Test@123
+
+storageClass:
+  create: true
+
+gateway:
+  enabled: true
+```
+
+**Compare the environments:**
+
+| Setting | Dev | Staging | Prod |
+|---------|-----|---------|------|
+| BankApp replicas | 1 (fixed) | 2-3 (HPA) | 2-4 (HPA) |
+| Image tag | latest | v1.2.0 | latest |
+| MySQL storage | 2Gi | 5Gi | 2Gi |
+| MySQL resources | 128Mi/100m | 256Mi/250m | 512Mi/500m |
+| Ollama memory | 1Gi | 2Gi | 2.5Gi |
+| Gateway | disabled | disabled | enabled |
+
+**Deploy to different environments:**
+```bash
+# Dev (on Kind)
+helm install bankapp-dev bankapp/ -f bankapp/values-dev.yaml -n dev --create-namespace
+
+# Staging (render to check)
+helm template bankapp-staging bankapp/ -f bankapp/values-staging.yaml | grep "replicas:"
+
+# Prod (render to check)
+helm template bankapp-prod bankapp/ -f bankapp/values-prod.yaml | grep "replicas:"
+```
+
+Same chart, wildly different deployments.
+
+---
+
+### Task 2: Add Helm Hooks
+The AI-BankApp uses init containers to wait for MySQL. Helm hooks offer another approach -- running pre-install jobs.
+
+Create `bankapp/templates/pre-install-job.yaml`:
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "bankapp.fullname" . }}-db-ready
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "bankapp.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    spec:
+      containers:
+        - name: db-check
+          image: busybox:1.36
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Waiting for MySQL to be ready..."
+              until nc -z {{ include "bankapp.fullname" . }}-mysql 3306; do
+                echo "MySQL not ready, retrying in 3s..."
+                sleep 3
+              done
+              echo "MySQL is ready!"
+          resources:
+            requests: { memory: "32Mi", cpu: "50m" }
+            limits: { memory: "64Mi", cpu: "100m" }
+      restartPolicy: Never
+  backoffLimit: 10
+```
+### Helm Hook
+
+The AI-BankApp uses an init container to wait for MySQL. I also added a Helm
+`post-install,post-upgrade` hook to check whether MySQL is reachable after
+deployment.
+
+```yaml
+annotations:
+  "helm.sh/hook": post-install,post-upgrade
+  "helm.sh/hook-weight": "0"
+  "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+```
+- `post-install,post-upgrade` → Runs the Job after installation or upgrade.
+- `hook-weight: "0"` → Controls the execution order when multiple hooks exist.
+- `before-hook-creation` → Removes the previous hook resource before creating a new one.
+- `hook-succeeded` → Deletes the Job after it completes successfully.
+
+**Add a Helm test:**
+
+Create `bankapp/templates/tests/test-connection.yaml`:
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ include "bankapp.fullname" . }}-test
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "bankapp.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: test
+      image: busybox:1.36
+      command: ['sh', '-c', 'wget -qO- http://{{ include "bankapp.fullname" . }}-service:8080/actuator/health']
+  restartPolicy: Never
+```
+
+After deploying, run:
+```bash
+helm test bankapp-dev -n dev
+```
+
+This hits the Spring Boot health endpoint and confirms the app is running.
+
+![Task-2](./images/task-2.jpg)
+
+---
+
+### Task 3: Package and Version the Chart
+Package the chart into a distributable `.tgz` file:
+
+```bash
+# Lint first
+helm lint bankapp/
+
+# Package
+helm package bankapp/
+```
+
+This creates `bankapp-0.1.0.tgz`.
+
+**Bump the version after changes:**
+Edit `bankapp/Chart.yaml`:
+```yaml
+version: 0.2.0        # Chart structure changed (added hooks)
+appVersion: "1.1.0"    # App version updated
+```
+---
+
+Re-package:
+```bash
+helm package bankapp/
+```
+
+Now you have `bankapp-0.1.0.tgz` and `bankapp-0.2.0.tgz`.
+
+![Task-3](./images/task-3-1.jpg)
+
+**Install from a package:**
+```bash
+helm install my-bankapp bankapp-0.2.0.tgz -f bankapp/values-dev.yaml -n bankapp --create-namespace
+```
+
+![Task-3](./images/kubectl-all.jpg)
+
+**Create a chart repository index** (for sharing via GitHub Pages):
+```bash
+mkdir chart-repo
+cp bankapp-*.tgz chart-repo/
+helm repo index chart-repo/ --url https://your-username.github.io/helm-charts
+cat chart-repo/index.yaml
+```
+![Task-3](./images/task-3-chart-repo.jpg)
+
+---
+
+### Task 4: Understand Helm in the AI-BankApp GitOps Pipeline
+The AI-BankApp uses a GitOps pipeline. Study how Helm could integrate:
+
+**Current pipeline (from `.github/workflows/gitops-ci.yml`):**
+```
+Developer pushes code
+  -> GitHub Actions builds Docker image
+  -> Tags with git commit SHA
+  -> Updates image tag in k8s/bankapp-deployment.yml via sed
+  -> Commits the change back to the repo
+  -> ArgoCD detects the change and syncs to EKS
+```
+
+**With Helm, the pipeline becomes:**
+```
+Developer pushes code
+  -> GitHub Actions builds Docker image
+  -> Tags with git commit SHA
+  -> Updates image.tag in helm-chart/values.yaml (or values-prod.yaml)
+  -> Commits the change back to the repo
+  -> ArgoCD detects the change and runs helm upgrade on EKS
+```
+
+Here is how the CI step would look with Helm (reference pattern):
+```yaml
+# In the GitHub Actions workflow
+- name: Update Helm values with new image tag
+  run: |
+    TAG=${{ steps.tag.outputs.sha_short }}
+    yq -i '.bankapp.image.tag = "'$TAG'"' helm-chart/bankapp/values-prod.yaml
+
+- name: Commit updated Helm values
+  run: |
+    git config user.name "github-actions[bot]"
+    git config user.email "github-actions[bot]@users.noreply.github.com"
+    git add helm-chart/bankapp/values-prod.yaml
+    git diff --staged --quiet || git commit -m "ci: update bankapp image to $TAG [skip ci]"
+    git push
+```
+
+**ArgoCD with Helm** (the ArgoCD Application would change from):
+```yaml
+# Current: raw manifests
+source:
+  path: k8s
+```
+
+To:
+```yaml
+# With Helm
+source:
+  path: helm-chart/bankapp
+  helm:
+    valueFiles:
+      - values-prod.yaml
+```
+
+ArgoCD natively supports Helm charts -- it renders templates and applies the result, tracking drift against the rendered output.
+
+**Document:** What are the advantages of ArgoCD syncing a Helm chart vs raw manifests?
+
+---
+
+### Task 5: Helm Best Practices for Production
+Review these patterns used in production AI-BankApp deployments:
+
+**1. Always use `helm upgrade --install`:**
+```bash
+helm upgrade --install bankapp bankapp/ \
+  -f bankapp/values-prod.yaml \
+  --set bankapp.image.tag=$GIT_SHA \
+  -n bankapp --create-namespace \
+  --wait --timeout 300s \
+  --atomic
+```
+
+- `--install` -- creates if missing, upgrades if exists
+- `--set bankapp.image.tag=$GIT_SHA` -- pins to exact git commit
+- `--wait` -- waits for all pods to be ready
+- `--atomic` -- rolls back automatically if the upgrade fails
+
+![Task-5](./images/helm-upgrade.jpg)
+
+**2. Use `helm diff` before upgrading:**
+```bash
+helm plugin install https://github.com/databus23/helm-diff
+helm diff upgrade bankapp bankapp/ -f bankapp/values-prod.yaml
+```
+
+Shows exactly what would change before you commit to the upgrade.
+
+**3. Resource quotas per namespace:**
+```yaml
+# Add to templates/resourcequota.yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ include "bankapp.fullname" . }}-quota
+  namespace: {{ .Release.Namespace }}
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: 4Gi
+    limits.cpu: "4"
+    limits.memory: 8Gi
+```
+
+**4. Never store real secrets in values.yaml.** In production, use:
+- External Secrets Operator with AWS Secrets Manager
+- Sealed Secrets
+- Vault by HashiCorp
+
+The `values.yaml` defaults are fine for local dev but should be overridden in CI/CD via `--set` with pipeline secrets.
+
+---
+
+### Task 6: Clean Up and Review
+Check what you have deployed:
+```bash
+helm list -A
+```
+![Task-6](./images/helm-list-final.jpg)
+
+**Reflect and document the 3-day Helm journey:**
+
+| Day | Concept | AI-BankApp Connection |
+|-----|---------|----------------------|
+| 78 | Helm install, repos, values, upgrade, rollback | Deployed MySQL for the BankApp via Bitnami chart |
+| 79 | Custom chart from scratch, Go templates | Converted 12 raw `k8s/` manifests into a Helm chart |
+| 80 | Multi-env values, hooks, packaging, CI/CD | Multi-environment Helm chart with dev/staging/prod configurations |
+
+**When would you use Helm vs raw manifests vs Kustomize?**
+
+| Approach | Best For | AI-BankApp Example |
+|----------|---------|-------------------|
+| Raw manifests | Simple, single-env deployments | The current `k8s/` directory |
+| Helm | Multi-env, complex apps with dependencies | The chart you built (3 services, HPA, hooks) |
+| Kustomize | Overlays on existing manifests, no templating | Good if you want to patch `k8s/` without rewriting |
+
+**Clean up:**
+```bash
+helm uninstall bankapp-dev -n dev
+kubectl delete namespace dev
+kind delete cluster --name tws-cluster
+```
+![Clean up](./images/clean-up.jpg)
+
+---
+
+### Comparison: Helm vs raw manifests vs Kustomize for the AI-BankApp
+```md
+| Aspect | Raw Kubernetes Manifests | Helm | Kustomize |
+|---|---|---|---|
+| Configuration | Manually edit YAML | Values files + templates | Base + overlays |
+| Multiple environments | Difficult | Easy | Easy |
+| Packaging | No | Chart | No |
+| Rollback | Manual | Built-in `helm rollback` | Git-based/manual |
+| Reusability | Low | High | High |
+| Dependencies | Manual | Supported | Limited |
+| AI-BankApp use | 12 separate YAML files | One reusable chart | Base manifests + dev/prod overlays |
+
+For AI-BankApp, **Helm is suitable because the same application can be deployed to dev, staging, and production using different values files while keeping the templates reusable.** :contentReference[oaicite:0]{index=0}
+```
+
+### Production Secrets Management
+
+For production, sensitive values such as MySQL passwords should **not be stored directly in `values.yaml` or Git**.
+
+Recommended approach:
+
+**AWS Secrets Manager → External Secrets Operator → Kubernetes Secret → AI-BankApp**
+
+- Store database credentials in **AWS Secrets Manager**.
+- Use **External Secrets Operator (ESO)** to synchronize the secret into Kubernetes.
+- Allow the EKS workload to access the secret using **IAM/Pod Identity**.
+- Reference the Kubernetes Secret from the BankApp Deployment.
+- Keep only secret names/references in Helm values, never the actual passwords.
+
+This keeps credentials outside the Git repository and allows secrets to be rotated without changing the Helm chart.
+
+### Troubleshooting 
+**1. Ollama ImagePullBackOff / disk full** - The large Ollama image and limited EC2 disk space caused no space left on device; the image was stored inside the Kind node's containerd storage. I increased available disk space.
+
+**2. Docker image tag problem** - The production values initially referenced trainwithshubham/ai-bankapp-eks:v1.2.0, but that tag was not available in the Docker repository. I changed the configuration to use the available latest image.
+
+**3. MySQL/PVC StorageClass conflict** - The upgrade initially attempted to change existing PVCs from standard to gp3, but a bound PVC's StorageClass cannot simply be changed. I kept the existing standard StorageClass for the Kind environment.
+
+**4. PVC resize problem** - The upgrade also attempted to increase an existing PVC's size, but the existing volume/storage configuration did not support that resize operation. I kept the existing PVC sizes instead of recreating persistent storage.
+
+**5. MySQL credential mismatch risk** - The production values originally contained different MySQL credentials from the already-initialized database. I changed the Helm values to match the existing database credentials so the application and database remained consistent.
+
+**6. BankApp database connection errors** - BankApp initially showed Hikari/DataSource connection errors and health-check timeouts. DNS, TCP connectivity, credentials and direct MySQL access were then verified successfully, and the application subsequently returned UP.
+
+**7. Helm upgrade timeout** - Some upgrade attempts ended with context deadline exceeded, making it unclear whether the release had reached the desired state. I removed the automatic rollback behavior and performed a controlled upgrade with --wait --timeout 5m.
+
+**8. Final Helm upgrade** - The final upgrade completed successfully:
+```
+Release "my-bankapp" has been upgraded.
+STATUS: deployed
+REVISION: 13
+```
+
+The final verification showed all BankApp, MySQL and Ollama Pods Running with 0 restarts, confirming the deployment was healthy.

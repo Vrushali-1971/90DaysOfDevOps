@@ -21,7 +21,7 @@ A pipeline is like a factory assembly line. Here are the parts I learned:
 * **Artifact:** The finished product (e.g., a `.zip` file or a **Docker Image**).
 
 ## 3. My Pipeline Diagram
-I designed a pipeline for a scenario where code is pushed, built into Docker, tested, and sent to a staging server.
+A diagram of a pipeline for a scenario where code is pushed, built into Docker, tested, and sent to a staging server.
 
 ![My Hand-Drawn Pipeline Diagram](./pipeline-diagram.jpg)
 

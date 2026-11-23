@@ -6,24 +6,14 @@
 - Work with variables, echo, and read
 - Write basic if-else conditions
 
-### Steps for every script file in the following tasks.
-
-Step 1: create a file using vim editor.
-
-Step 2: Write code inside vim editor.
-
-Step 3: Give executable permissions.
-
-Step 4: Run the executable file.
-
 ### Task 1: Your First Script
  
-  **Command used to Create, Execute and Run the script file**
+**Command used to Create, Execute and Run the script file**
 
 ```bash
-vim hello.sh
-chmod +x hello.sh
-./hello.sh
+vim file.sh        # Create the file with a editor (replace your file's name with file.sh)
+chmod +x file.sh   # Give executable permission
+./file.sh         # Run the script
 ```
 
 **Code:**
@@ -32,19 +22,11 @@ chmod +x hello.sh
 echo "Hello, DevOps!"
 ```
 
-**What happens if you remove the shebang line?**
-
+### Q. What happens if you remove the shebang line?
  Without shebang, the script may run with the wrong shell or fail when executed directly (./script.sh).
 
- ### Task 2: Variables
+### Task 2: Variables
 
- **Command used to Create, Eexecute and Run the script file**
-
- ```bash
-vim variables.sh
-chmod +x variables.sh
-./variables.sh
-```
 **Code:** 
 ```
 #!/bin/bash
@@ -53,58 +35,32 @@ ROLE='DevOps Engineer'
 echo "Hello, I am $NAME and I am a $ROLE"
 ```
 
-**Single Quotes vs Double Quotes (Difference)**
+### Single Quotes vs Double Quotes (Difference)
+- **Single Quotes** - When we use single quotes the shell treats it as a literal text and does not expand it.
 
-**Single quotes ' '**
+**Example:** - `echo 'Hello, I am $NAME'`
 
-- Variables are NOT expanded
+➜ **Output:** `Hello, I am $NAME` (Here it didn't expand Name variable's given value)
 
-**Example:**
+- **Double quotes** - Use double quotes to expand the variable's value while preventing unexpected word splitting and wildcard expansion
 
-echo 'Hello, I am $NAME'
+**Example:** - `echo "Hello, I am $NAME"`
 
-➜ Output: Hello, I am $NAME
-
-**Double quotes " "**
-
-- Variables ARE expanded
-
-**Example:**
-
-echo "Hello, I am $NAME"
-
-➜ Output: Hello, I am Ajay
+➜ **Output:** `Hello, I am Vrushali` (Here it expanded the variable as we put the double quotes) 
 
 ### Task 3: User Input with read
 
-**Commands used to Create, execute and run the file.**
-
-```bash
-vim greet.sh
-chmod +x greet.sh
-./greet.sh
-```
-
 **Code:**
-
 ```
 #!/bin/bash
 read -p "Enter your name: " name
 read -p "Enter your favourite tool: " tool
 echo "Hello $name, and your favorite tool is $tool"
 ```
+- read -p command displays a prompt message to the user and captures their typed input into a variable on the same line.
 
 ### Task 4: If-Else Conditions
-
-**Commands used for Task1**
-
-```bash
-vim check_number.sh
-chmod +x check_number.sh
-./check_number.sh
-```
 **Code:**
-
 ```
 #!/bin/bash
 read -p "Enter the number: " num
@@ -116,13 +72,7 @@ else
     echo "The number is Zero"
 fi
 ```
- 
-**Commands used for Task 2**
-```bash
-vim file_check.sh
-chmod +x file_check.sh
-./file_check.sh
-```
+
 **Code:**
 ```
 #!/bin/bash
@@ -136,16 +86,7 @@ fi
 
 ### Task 5: Combine It All
 
-**Commands used**
-
-```bash
-vim server_check.sh
-chmod +x server_check.sh
-./server_check.sh
-```
-
 **Code:**
-
 ```
 #!/bin/bash
 
@@ -173,6 +114,9 @@ fi
 2. Quotes are important for safe variable handling.
 3. If-else logic and file checks are core building blocks of automation.
 
+### Proof of work: 
+![proof-1](./Day-16%20Shell%20script%201.jpg)
 
+![proof-1](./Day-16%20Shell%20script%202.jpg)
 
 

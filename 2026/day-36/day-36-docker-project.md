@@ -80,14 +80,14 @@ The project configuration files and deployment resources are included separately
 ### Dockerfile
 Defines the multi-stage build process for the Flask application. It installs the required dependencies in the build stage, copies only the necessary application artifacts into the final runtime image, and runs the application as a non-root user to produce a smaller, more secure, production-ready image.
 
-📄 **File:** [Dockerfile](./Dockerfile)
+📄 **File:** [Dockerfile](./project/Dockerfile)
 
 ---
 
 ### Docker Compose Configuration
 Defines the complete multi-container application stack, including the Flask web application and MySQL database. It configures container networking, persistent Docker Volumes, environment variables, port mappings, restart policies, and health checks to ensure both services start and communicate correctly.
 
-📄 **File:** [docker-compose.yml](./docker-compose.yml)
+📄 **File:** [docker-compose.yml](./project/docker-compose.yml)
 
 ---
 

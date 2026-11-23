@@ -3,7 +3,7 @@
 ## Task
 Five days of Ansible -- inventory, ad-hoc commands, playbooks, modules, handlers, variables, facts, conditionals, loops, roles, templates, Galaxy, and Vault. Today I put it all together and build what I would actually do on the job.
 
-Automate a complete deployment: install Docker, pull and run a containerized application, set up Nginx as a reverse proxy in front of it, and manage everything through Ansible roles. One command to go from a fresh server to a fully running, production-style setup.
+Automated a complete deployment: installed Docker, pulled and ran a containerized application, set up Nginx as a reverse proxy in front of it, and managed everything through Ansible roles. One command to go from a fresh server to a fully running, production-style setup.
 
 ---
 
@@ -176,7 +176,8 @@ Write tasks that:
 ```
 
 - Complete **`roles/docker/tasks/main.yml`:** file
-  [](./ansible-docker-project/roles/docker/tasks/main.yml)
+
+  [main.yml](./ansible-docker-project/roles/docker/tasks/main.yml)
 
 Tag all tasks with `docker`.
 
@@ -223,7 +224,9 @@ Write tasks that:
 7. Use a handler to reload Nginx when any config changes
 
 - Complete **`roles/nginx/tasks/main.yml`:** file
-  [](./ansible-docker-project/roles/nginx/tasks/main.yml)
+
+  [main.yml](./ansible-docker-project/roles/nginx/tasks/main.yml)
+
 
 Tag all tasks with `nginx`.
 

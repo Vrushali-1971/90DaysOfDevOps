@@ -32,6 +32,82 @@ The name "Kubernetes" comes from Greek, meaning "helmsman" or "pilot", which rep
 ### Flow (kubectl apply)
 kubectl → API Server → etcd → Scheduler → Worker Node → kubelet → Container runs
 
+### Kubernetes Architecture Diagram
+```
+                         KUBERNETES CLUSTER
+┌──────────────────────────────────────────────────────────────────────┐
+│                                                                      │
+│   ┌──────────────────────── CONTROL PLANE ────────────────────────┐  │
+│   │                                                               │  │
+│   │   ┌──────────────┐       ┌──────────────┐                    │  │
+│   │   │  API Server  │◄─────►│     etcd     │                    │  │
+│   │   └──────┬───────┘       └──────────────┘                    │  │
+│   │          │                                                    │  │
+│   │     ┌────┼──────────────┐                                    │  │
+│   │     │    │              │                                    │  │
+│   │     ▼    ▼              ▼                                    │  │
+│   │ Scheduler  Controller Manager                               │  │
+│   │                                                               │  │
+│   └──────────────┬────────────────────────────────────────────────┘  │
+│                  │                                                   │
+│                  │ Pod scheduling / cluster management               │
+│                  │                                                   │
+│        ┌─────────┴──────────────┐                                    │
+│        │                        │                                    │
+│        ▼                        ▼                                    │
+│  ┌───────────────┐       ┌───────────────┐                           │
+│  │  WORKER NODE  │       │  WORKER NODE  │                           │
+│  │      1        │       │      2        │                           │
+│  │               │       │               │                           │
+│  │   ┌───────┐   │       │   ┌───────┐   │                           │
+│  │   │kubelet│   │       │   │kubelet│   │                           │
+│  │   └───┬───┘   │       │   └───┬───┘   │                           │
+│  │       │       │       │       │       │                           │
+│  │   ┌───▼───┐   │       │   ┌───▼───┐   │                           │
+│  │   │  Pod  │   │       │   │  Pod  │   │                           │
+│  │   └───────┘   │       │   └───────┘   │                           │
+│  │               │       │               │                           │
+│  │  kube-proxy   │       │  kube-proxy   │                           │
+│  │               │       │               │                           │
+│  │Container      │       │Container      │                           │
+│  │Runtime        │       │Runtime        │                           │
+│  └───────────────┘       └───────────────┘                           │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+
+
+                         REQUEST FLOW
+                         ────────────
+
+       User
+        │
+        │ kubectl
+        ▼
+    API Server
+        │
+        ├──────────► etcd
+        │             │
+        │             └── stores cluster state
+        │
+        ├──────────► Scheduler
+        │             │
+        │             └── chooses Worker Node
+        │
+        └──────────► Controller Manager
+                      │
+                      └── maintains desired state
+                                │
+                                ▼
+                           Worker Node
+                                │
+                              kubelet
+                                │
+                                ▼
+                               Pod
+                                │
+                                ▼
+                            Container
+```
 --- 
 
 ## Question - Which tool you chose (kind/minikube) and why
@@ -117,7 +193,7 @@ Provides DNS service inside the cluster so pods can communicate using names inst
 Handles networking between nodes and pods in a kind cluster.
 
 ### Screenshots: 
-![Create kind Cluster](./task-5.png)
+![Create kind Cluster](./images/task-5.png)
 
 ![namespaces](./images/namespaces.png)
 
