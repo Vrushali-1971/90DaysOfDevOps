@@ -115,8 +115,8 @@ fi
 3. If-else logic and file checks are core building blocks of automation.
 
 ### Proof of work: 
-![proof-1](./Day-16%20Shell%20script%201.jpg)
+![proof-1](./images/Day-16%20Shell%20script%201.jpg)
 
-![proof-1](./Day-16%20Shell%20script%202.jpg)
+![proof-1](./images/Day-16%20Shell%20script%202.jpg)
 
 
