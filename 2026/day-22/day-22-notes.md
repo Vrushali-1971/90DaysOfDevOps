@@ -4,15 +4,18 @@
 
 ## What I Did Today
 
- Installed and Configured Git. 
+- Installed and Configured Git. 
 
- Created a new repository.
+- Created a new repository.
 
- Explored the .git folder.
+- Explored the .git folder.
 
- Practiced staging and committing changes.
+- Practiced staging and committing changes.
  
- Built multiple commits to understand history.
+- Built multiple commits to understand history.
+
+[Git Commands Reference](./git-commands.md)
+
 
 ## Basic questions for understanding git commands
 
@@ -58,3 +61,10 @@ Working Directory: This is where we edit files normally.
 Staging Area: This is where we prepare changes before committing.
  
 Repository: This is where Git permanently saves committed changes.
+
+### Proof of work:
+
+![git logs](./images/git%20log%20--oneline.jpg)
+
+![git logs](./images/git%20log.jpg)
+

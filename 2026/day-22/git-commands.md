@@ -1,4 +1,4 @@
-#Git Commands Reference
+# Git Commands Reference
 
 ## Setup and config
 
@@ -10,6 +10,7 @@ Example:
 sudo apt update
 sudo apt install git -y
 ```
+
 ### git config 
 What it does: Sets Git username and email.
 Example: 
