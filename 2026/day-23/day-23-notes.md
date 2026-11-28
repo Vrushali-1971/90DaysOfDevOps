@@ -283,3 +283,15 @@ Merge updates:
 - The difference between clone and fork
 - How to keep a fork updated with the original repository 
 
+[Git Commmands Reference](./git-commands.md)
+
+
+### Proof Of Work
+
+![Task 1-2](./images/task-1-2.jpg)
+
+![Task 3-4](./images/task-3-4.jpg)
+
+![Task 5](./images/task-5.jpg)
+
+![git logs --oneline](./images/git-logs.jpg)
